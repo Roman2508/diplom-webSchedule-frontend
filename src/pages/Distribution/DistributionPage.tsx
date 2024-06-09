@@ -63,7 +63,7 @@ const DistributionPage = () => {
         </Grid>
 
         <Grid item xs={12} sx={{ display: "flex", alignItems: "flex-start" }}>
-          <Grid item xs={5}>
+          <Grid item xs={4}>
             <MainCard sx={{ "& .MuiCardContent-root": { px: 1 } }}>
               <div
                 style={{
@@ -105,7 +105,7 @@ const DistributionPage = () => {
             </MainCard>
           </Grid>
 
-          <Grid item xs={3} sx={{ mx: 2 }}>
+          <Grid item xs={4} sx={{ mx: 2 }}>
             {/* DISTRIBUTION LESSONS */}
             <DistributionTeachersToLessons
               selectedLesson={selectedLesson}
