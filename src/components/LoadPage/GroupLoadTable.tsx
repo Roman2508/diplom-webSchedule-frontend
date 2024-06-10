@@ -1,17 +1,14 @@
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material"
 import React, { Dispatch, SetStateAction } from "react"
-import { groupLessonsByFields } from "../../utils/groupLessonsByFields"
 import { GroupLessonsType } from "../../store/groups/groupsTypes"
 
 interface IGroupLoadTableProps {
   lessons: GroupLessonsType[] | null
-  //   selectedLesson: GroupLoadType[] | null
-  //   setSelectedLesson: Dispatch<SetStateAction<GroupLoadType[] | null>>
+  editableLesson: GroupLessonsType | null
+  setEditableLesson: Dispatch<SetStateAction<GroupLessonsType | null>>
 }
 
-const GroupLoadTable: React.FC<IGroupLoadTableProps> = ({ lessons }) => {
-  //   const lessons = groupLessonsByFields(groupLoad ? groupLoad : [], { lessonName: true, semester: true })
-
+const GroupLoadTable: React.FC<IGroupLoadTableProps> = ({ lessons, editableLesson, setEditableLesson }) => {
   return (
     <Table sx={{ backgroundColor: "#fff" }}>
       <TableHead>
@@ -23,10 +20,10 @@ const GroupLoadTable: React.FC<IGroupLoadTableProps> = ({ lessons }) => {
             Назва дисципліни
           </TableCell>
           <TableCell padding="none" align="right" sx={{ py: "8px" }}>
-            Семестр
+            Тип
           </TableCell>
           <TableCell padding="none" align="right" sx={{ py: "8px" }}>
-            Тип
+            Семестр
           </TableCell>
           <TableCell padding="none" align="right" sx={{ py: "8px" }}>
             Години
@@ -38,8 +35,8 @@ const GroupLoadTable: React.FC<IGroupLoadTableProps> = ({ lessons }) => {
         {(lessons ? lessons : []).map((lesson, index) => (
           <TableRow
             key={lesson.id}
-            // selected={lesson[0].id === (selectedLesson && selectedLesson[0].id)}
-            // onClick={() => setSelectedLesson(lesson)}
+            onClick={() => setEditableLesson(lesson)}
+            selected={lesson.id === editableLesson?.id}
             sx={{ "&:hover": { backgroundColor: "secondary.lighter", cursor: "pointer" } }}
           >
             <TableCell padding="none" align="left" sx={{ py: "6px" }}>

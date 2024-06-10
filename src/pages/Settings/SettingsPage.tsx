@@ -1,18 +1,44 @@
 import React from "react"
 import { useSelector } from "react-redux"
-import { Grid, Typography } from "@mui/material"
+import { HexColorInput, HexColorPicker } from "react-colorful"
+import { MuiColorInput } from "mui-color-input"
+import { Button, Grid, Typography } from "@mui/material"
+import debounce from "lodash.debounce"
 
 import MainCard from "../../components/MainCard"
 import { CustomDatePicker } from "../../components/CustomDatePicker"
 import { settingsSelector } from "../../store/settings/settingsSlice"
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner"
+import { useAppDispatch } from "../../store/store"
 
-// ==============================|| TIMETABLE ||============================== //
+const lessonTypes = {
+  ["Лекції"]: "lectures",
+  ["Практичні"]: "practical",
+  ["Лабораторні"]: "laboratory",
+  ["Семінари"]: "seminars",
+  ["Екзамени"]: "exams",
+}
 
 const SettingsPage = () => {
-  const [value, setValue] = React.useState("")
+  const dispatch = useAppDispatch()
 
   const { settings } = useSelector(settingsSelector)
+
+  const [colors, setColors] = React.useState({
+    ["Лекції"]: "#aabbcc",
+    ["Практичні"]: "#aabbcc",
+    ["Лабораторні"]: "#aabbcc",
+    ["Семінари"]: "#aabbcc",
+    ["Екзамени"]: "#aabbcc",
+  })
+
+  const handleChangeColor = (type: string, newColor: string) => {
+    setColors((prev) => ({ ...prev, [type]: newColor }))
+  }
+
+  const fetchColors = () => {
+    // dispatch()
+  }
 
   if (!settings) return <LoadingSpinner />
 
@@ -41,11 +67,7 @@ const SettingsPage = () => {
                   marginBottom: "16px",
                 }}
               >
-                <CustomDatePicker
-                  label="Початок"
-                  setValue={setValue}
-                  value={settings.firstSemesterStart}
-                />
+                <CustomDatePicker label="Початок" value={settings.firstSemesterStart} />
                 <CustomDatePicker label="Кінець" value={settings.firstSemesterEnd} />
               </div>
 
@@ -65,9 +87,39 @@ const SettingsPage = () => {
               </div>
             </MainCard>
 
-            <MainCard sx={{ mt: 2, "& .MuiCardContent-root": { px: 1 } }}>
-              <br />
-              Налаштування кольорів
+            <MainCard sx={{ mt: 2, "& .MuiCardContent-root": { px: 1 }, textAlign: "center" }}>
+              <Typography variant="h5" sx={{ textAlign: "center", mb: 2 }}>
+                Налаштування кольорів
+              </Typography>
+
+              {["Лекції", "Практичні", "Лабораторні", "Семінари", "Екзамен"].map((el) => {
+                return (
+                  <div
+                    key={el}
+                    style={{
+                      gap: "16px",
+                      display: "flex",
+                      marginBottom: "6px",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Typography variant="h6" sx={{ textAlign: "left", mt: 1, width: "90px" }}>
+                      {el}
+                    </Typography>
+                    <MuiColorInput value={colors[el]} onChange={(newColor) => handleChangeColor(el, newColor)} />
+                  </div>
+                )
+              })}
+
+              <Button
+                type="submit"
+                color="primary"
+                variant="outlined"
+                onClick={fetchColors}
+                sx={{ textTransform: "capitalize", width: "100%", p: "7.44px 15px", mt: 3, maxWidth: "370px" }}
+              >
+                Зберегти
+              </Button>
             </MainCard>
           </Grid>
 

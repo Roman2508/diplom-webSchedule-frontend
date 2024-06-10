@@ -1,14 +1,17 @@
-import { lazy } from "react"
+import React, { lazy } from "react"
 import Loadable from "./components/Loadable"
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, useNavigate } from "react-router-dom"
 
 import "./App.css"
 import ThemeCustomization from "./themes"
 import MainLayout from "./layout/MainLayout"
 import ScrollTop from "./components/ScrollTop"
 import "react-toastify/dist/ReactToastify.css"
+import { useAppDispatch } from "./store/store"
+import { LoadPage } from "./pages/Load/LoadPage"
 import MinimalLayout from "./layout/MinimalLayout"
 import { PlansPage } from "./pages/Plans/PlansPage"
+import { authMe } from "./store/auth/authAsyncActions"
 import { GroupsPage } from "./pages/Groups/GroupsPage"
 import { StreamsPage } from "./pages/Streams/StreamsPage"
 import FullGroupPage from "./pages/FullGroup/FullGroupPage"
@@ -20,7 +23,6 @@ import { AuditoriesPage } from "./pages/Auditories/AuditoriesPage"
 import AuthLogin from "./pages/authentication/auth-forms/AuthLogin"
 import { DistributionPage } from "./pages/Distribution/DistributionPage"
 import AuthRegister from "./pages/authentication/auth-forms/AuthRegister"
-import { LoadPage } from "./pages/Load/LoadPage"
 
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import("./pages/dashboard")))
@@ -34,6 +36,19 @@ const AntIcons = Loadable(lazy(() => import("./pages/components-overview/AntIcon
 const Typography = Loadable(lazy(() => import("./pages/components-overview/Typography")))
 
 const App = () => {
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
+  React.useEffect(() => {
+    const token = window.localStorage.getItem("webSchedule-token")
+
+    if (token) {
+      dispatch(authMe({ token }))
+    } else {
+      navigate("/auth")
+    }
+  }, [])
+
   return (
     <ThemeCustomization>
       <ScrollTop>
@@ -64,7 +79,7 @@ const App = () => {
           </Route>
 
           <Route element={<MinimalLayout />}>
-            <Route element={<AuthLogin />} path="/login" />
+            <Route element={<AuthLogin />} path="/auth" />
             <Route element={<AuthRegister />} path="/register" />
           </Route>
         </Routes>

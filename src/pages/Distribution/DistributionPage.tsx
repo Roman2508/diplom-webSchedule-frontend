@@ -90,13 +90,14 @@ const DistributionPage = () => {
               <Divider />
 
               {/* DISTRIBUTION TABLE */}
-              {!group.id && groupsLoadingStatus !== LoadingStatusTypes.LOADING ? <EmptyCard /> : ""}
               {!group.id && groupsLoadingStatus === LoadingStatusTypes.LOADING ? <LoadingSpinner /> : ""}
+              {!group.id && groupsLoadingStatus !== LoadingStatusTypes.LOADING ? <EmptyCard /> : ""}
               {group.id ? (
                 <DistributionLessonsTable
                   groupLoad={group.lessons}
                   selectedLesson={selectedLesson}
                   setSelectedLesson={setSelectedLesson}
+                  groupsLoadingStatus={groupsLoadingStatus}
                 />
               ) : (
                 ""

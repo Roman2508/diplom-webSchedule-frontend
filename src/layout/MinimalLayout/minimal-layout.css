@@ -1,24 +1,17 @@
+.blur-wrapper {
+  overflow: hidden;
+}
+
 .blur-logo-bg {
-  left: 0;
-  transform: translate(-50%, -10%) rotate(15deg);
   position: absolute;
   z-index: 0;
-  filter: blur(4px);
-  bottom: 0px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(150px);
 }
 
 .blur-logo-bg img {
   height: calc(90vh);
   width: auto;
-}
-
-@media (max-width: 1024px) {
-  .blur-logo-bg {
-    transform: translate(-50%, -30%) rotate(15deg);
-  }
-
-  .blur-logo-bg img {
-    height: calc(65vh);
-    width: auto;
-  }
 }

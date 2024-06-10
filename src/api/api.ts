@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios, { InternalAxiosRequestConfig } from "axios"
 
 import {
   CreatePlanPayloadType,
@@ -34,6 +34,11 @@ import {
   CopyDaySchedulePayloadType,
   CreateReplacementPayloadType,
   CreateGroupLoadLessonType,
+  UpdateGroupLoadLessonType,
+  AuthLoginType,
+  AuthResponceType,
+  AuthRegisterType,
+  AuthMeType,
 } from "./apiTypes"
 import { StreamsType } from "../store/streams/streamsTypes"
 import { SettingsType } from "../store/settings/settingsTypes"
@@ -42,6 +47,7 @@ import { TeachersCategoryType, TeachersType } from "../store/teachers/teachersTy
 import { PlanType, PlansCategoriesType, PlansType } from "../store/plans/plansTypes"
 import { GroupCategoriesType, GroupLessonsType, GroupsType } from "../store/groups/groupsTypes"
 import { AuditoriesTypes, AuditoryCategoriesTypes } from "../store/auditories/auditoriesTypes"
+import { AuthType } from "../store/auth/authTypes"
 
 const instanse = axios.create({
   baseURL: "http://localhost:7777/",
@@ -52,17 +58,24 @@ const instanse = axios.create({
   // baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:4444/' : 'https://timetable-server.onrender.com/',
 })
 
-// Якщо є токен, вшиваю його в конфігурацію axios
-// @ts-ignore
-instanse.interceptors.request.use((config) => {
-  if (config.headers) {
-    config.headers.Authorization = String(
-      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE3ODQ0NTU3LCJleHAiOjE3MjA0MzY1NTd9.g5eQhq-zZuc-rpP2XthjP8sIsxOuUpjQ8sHUIkRxhRk"
-    )
-    // config.headers.Authorization = String(window.localStorage.getItem('token'))
+// instanse.interceptors.request.use((config) => {
+//   if (config.headers) {
+//     config.headers.Authorization = String(
+//       "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE3ODQ0NTU3LCJleHAiOjE3MjA0MzY1NTd9.g5eQhq-zZuc-rpP2XthjP8sIsxOuUpjQ8sHUIkRxhRk"
+//     )
 
-    return config
+//     return config
+//   }
+// })
+
+instanse.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+  const token = window.localStorage.getItem("webSchedule-token")
+
+  if (config.headers && token) {
+    config.headers.Authorization = String(`Bearer ${token}`)
   }
+
+  return config
 })
 
 export const auditoriesAPI = {
@@ -239,7 +252,15 @@ export const groupLoadLessonsAPI = {
   },
 
   create(payload: CreateGroupLoadLessonType) {
-    return instanse.post<any>("/group-load-lessons", payload)
+    return instanse.post<GroupLessonsType>("/group-load-lessons", payload)
+  },
+
+  update(payload: UpdateGroupLoadLessonType) {
+    return instanse.patch<GroupLessonsType>("/group-load-lessons", payload)
+  },
+
+  delete(id: number) {
+    return instanse.delete<number>(`/group-load-lessons/${id}`)
   },
 
   /* Students */
@@ -346,5 +367,17 @@ export const settingsAPI = {
   updateSettings(payload: SettingsType) {
     const { id, ...rest } = payload
     return instanse.patch<SettingsType>(`/settings/${id}`, rest)
+  },
+}
+
+export const authAPI = {
+  login(payload: AuthLoginType) {
+    return instanse.post<AuthResponceType>("/auth/login", payload)
+  },
+  register(payload: AuthRegisterType) {
+    return instanse.post<AuthResponceType>("/auth/register", payload)
+  },
+  getMe(payload: AuthMeType) {
+    return instanse.post<AuthType>("/auth/me", payload)
   },
 }

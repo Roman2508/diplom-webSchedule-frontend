@@ -2,9 +2,13 @@ import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material"
 import React, { Dispatch, SetStateAction } from "react"
 import { groupLessonsByFields } from "../../utils/groupLessonsByFields"
 import { GroupLessonsType } from "../../store/groups/groupsTypes"
+import EmptyCard from "../EmptyCard/EmptyCard"
+import { LoadingStatusTypes } from "../../store/appTypes"
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner"
 
 interface IDistributionLessonsTableProps {
   groupLoad: GroupLessonsType[] | null
+  groupsLoadingStatus: LoadingStatusTypes
   selectedLesson: GroupLessonsType[] | null
   setSelectedLesson: Dispatch<SetStateAction<GroupLessonsType[] | null>>
 }
@@ -13,6 +17,7 @@ const DistributionLessonsTable: React.FC<IDistributionLessonsTableProps> = ({
   groupLoad,
   selectedLesson,
   setSelectedLesson,
+  groupsLoadingStatus,
 }) => {
   const lessons = groupLessonsByFields(groupLoad ? groupLoad : [], { lessonName: true, semester: true })
 
@@ -36,6 +41,14 @@ const DistributionLessonsTable: React.FC<IDistributionLessonsTableProps> = ({
       </TableHead>
 
       <TableBody>
+        {!groupLoad?.length && groupsLoadingStatus !== LoadingStatusTypes.LOADING && (
+          <TableRow>
+            <TableCell padding="none" colSpan={4} align="left" sx={{ py: "6px" }}>
+              <EmptyCard />
+            </TableCell>
+          </TableRow>
+        )}
+
         {lessons.map((lesson, index) => (
           <TableRow
             key={index}

@@ -6,6 +6,7 @@ import {
   UpdateEntityNamePayloadType,
   ChangeStudentsCountType,
   CreateGroupLoadLessonType,
+  UpdateGroupLoadLessonType,
 } from "../../api/apiTypes"
 import { setLoadingStatus } from "./groupsSlice"
 import { LoadingStatusTypes } from "../appTypes"
@@ -222,6 +223,51 @@ export const createGroupLoadLesson = createAsyncThunk(
     }
   }
 )
+
+export const updateGroupLoadLesson = createAsyncThunk(
+  "group/updateGroupLoadLesson",
+  async (payload: UpdateGroupLoadLessonType, thunkAPI) => {
+    thunkAPI.dispatch(setLoadingStatus(LoadingStatusTypes.LOADING))
+    thunkAPI.dispatch(setAppAlert({ message: "Завантаження...", status: "info" }))
+
+    try {
+      const { data } = await groupLoadLessonsAPI.update(payload)
+      thunkAPI.dispatch(setAppAlert({ message: "Success", status: "success" }))
+      thunkAPI.dispatch(setLoadingStatus(LoadingStatusTypes.SUCCESS))
+      return data
+    } catch (error: any) {
+      thunkAPI.dispatch(setLoadingStatus(LoadingStatusTypes.ERROR))
+      thunkAPI.dispatch(
+        setAppAlert({
+          message: (error as any)?.response?.data?.message || error.message,
+          status: "error",
+        })
+      )
+      throw error
+    }
+  }
+)
+
+export const deleteGroupLoadLesson = createAsyncThunk("group/deleteGroupLoadLesson", async (id: number, thunkAPI) => {
+  thunkAPI.dispatch(setLoadingStatus(LoadingStatusTypes.LOADING))
+  thunkAPI.dispatch(setAppAlert({ message: "Завантаження...", status: "info" }))
+
+  try {
+    const { data } = await groupLoadLessonsAPI.delete(id)
+    thunkAPI.dispatch(setAppAlert({ message: "Success", status: "success" }))
+    thunkAPI.dispatch(setLoadingStatus(LoadingStatusTypes.SUCCESS))
+    return data
+  } catch (error: any) {
+    thunkAPI.dispatch(setLoadingStatus(LoadingStatusTypes.ERROR))
+    thunkAPI.dispatch(
+      setAppAlert({
+        message: (error as any)?.response?.data?.message || error.message,
+        status: "error",
+      })
+    )
+    throw error
+  }
+})
 
 /* attachTeacher */
 export const attachTeacher = createAsyncThunk(

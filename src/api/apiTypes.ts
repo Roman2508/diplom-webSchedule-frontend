@@ -1,3 +1,4 @@
+import { AuthType } from "../store/auth/authTypes"
 import { GroupsType } from "../store/groups/groupsTypes"
 import { TeachersType } from "../store/teachers/teachersTypes"
 
@@ -80,6 +81,7 @@ export type CreateGroupLoadLessonType = {
   hours: number
   groupId: number
 }
+export type UpdateGroupLoadLessonType = Omit<CreateGroupLoadLessonType, "groupId"> & { lessonId: number }
 
 export type CreateSubjectPayloadType = {
   name: string
@@ -238,4 +240,26 @@ export type GetAuditoryOverlayPayloadType = {
 export type GetGroupOverlayPayloadType = {
   groupId: number
   semester: number
+}
+
+/* auth */
+
+export type AuthLoginType = {
+  email: string
+  password: string
+}
+
+export type AuthRegisterType = {
+  email: string
+  password: string
+  name: string
+}
+
+export type AuthMeType = {
+  token: string
+}
+
+export type AuthResponceType = {
+  user: AuthType
+  accessToken: string
 }

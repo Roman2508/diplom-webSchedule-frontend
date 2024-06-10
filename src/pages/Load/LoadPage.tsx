@@ -5,6 +5,8 @@ import { Grid, Divider, Typography, List, ListItemButton, ListItemText, Collapse
 
 import MainCard from "../../components/MainCard"
 import { useAppDispatch } from "../../store/store"
+import { LoadingStatusTypes } from "../../store/appTypes"
+import EmptyCard from "../../components/EmptyCard/EmptyCard"
 import { groupsSelector } from "../../store/groups/groupsSlice"
 import { GroupLoadTable } from "../../components/LoadPage/GroupLoadTable"
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner"
@@ -12,9 +14,6 @@ import { CreateLessonForm } from "../../components/LoadPage/CreateLessonForm"
 import { GroupLessonsType, GroupsShortType } from "../../store/groups/groupsTypes"
 import { getTeachersCategories } from "../../store/teachers/teachersAsyncActions"
 import { getGroup, getGroupCategories } from "../../store/groups/groupsAsyncActions"
-import { SelectGroupModal } from "../../components/DistributionPage/SelectGroupModal"
-import { LoadingStatusTypes } from "../../store/appTypes"
-import EmptyCard from "../../components/EmptyCard/EmptyCard"
 
 const LoadPage = () => {
   const dispatch = useAppDispatch()
@@ -23,6 +22,7 @@ const LoadPage = () => {
 
   const [openCategoryId, setOpenCategoryId] = React.useState<number | null>(null)
   const [selectedGroup, setSelectedGroup] = React.useState<GroupsShortType | null>(null)
+  const [editableLesson, setEditableLesson] = React.useState<null | GroupLessonsType>(null)
 
   const handleOpenCategory = (id: number) => {
     if (id === openCategoryId) {
@@ -63,8 +63,8 @@ const LoadPage = () => {
         </Grid>
 
         <Grid item xs={12} sx={{ display: "flex", alignItems: "flex-start", pt: 4 }}>
-          <Grid item xs={4}>
-            <MainCard sx={{ "& .MuiCardContent-root": { px: 1, pb: 0 } }}>
+          <Grid item xs={4} sx={{ pb: 0 }}>
+            <MainCard sx={{ "& .MuiCardContent-root": { px: 0, pb: "0 !important" } }}>
               <Typography sx={{ mb: 2, textAlign: "center" }}>ГРУПИ</Typography>
 
               <List>
@@ -86,6 +86,12 @@ const LoadPage = () => {
                         <Divider />
                         <Collapse in={category.id === openCategoryId} timeout="auto" unmountOnExit>
                           <List component="div" disablePadding>
+                            {!category.groups.length && (
+                              <Typography variant="h6" sx={{ textAlign: "center", my: 2 }}>
+                                Пусто
+                              </Typography>
+                            )}
+
                             {category.groups.map((group) => (
                               <React.Fragment key={group.id}>
                                 <ListItemButton
@@ -112,7 +118,13 @@ const LoadPage = () => {
 
           <Grid item xs={3} sx={{ mx: 2 }}>
             <MainCard sx={{ px: 2, "& .MuiCardContent-root": { px: 1 } }}>
-              <CreateLessonForm editingLesson={null} selectedGroupId={selectedGroup?.id} />
+              <Typography sx={{ mb: 2, textAlign: "center" }}>ДОДАТИ НАВАНТАЖЕННЯ</Typography>
+
+              <CreateLessonForm
+                editableLesson={editableLesson}
+                selectedGroupId={selectedGroup?.id}
+                setEditableLesson={setEditableLesson}
+              />
             </MainCard>
           </Grid>
 
@@ -126,7 +138,13 @@ const LoadPage = () => {
             <Paper>
               {!group.id && loadingStatus === LoadingStatusTypes.LOADING && <LoadingSpinner />}
               {!Boolean(group.lessons?.length) && loadingStatus !== LoadingStatusTypes.LOADING && <EmptyCard />}
-              {Boolean(group.lessons?.length) && <GroupLoadTable lessons={group.lessons} />}
+              {Boolean(group.lessons?.length) && (
+                <GroupLoadTable
+                  lessons={group.lessons}
+                  editableLesson={editableLesson}
+                  setEditableLesson={setEditableLesson}
+                />
+              )}
             </Paper>
           </Grid>
         </Grid>

@@ -60,6 +60,8 @@ const GroupsPage = () => {
 
     const fetchData = async () => {
       const { payload } = await dispatch(getGroupCategories())
+
+      if (!payload) return
       setActiveGroupCategory((payload as GroupCategoriesType[])[0])
     }
     fetchData()

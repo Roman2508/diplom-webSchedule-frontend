@@ -13,6 +13,8 @@ import {
   deleteGroupCategory,
   changeStudentsCount,
   createGroupLoadLesson,
+  updateGroupLoadLesson,
+  deleteGroupLoadLesson,
 } from "./groupsAsyncActions"
 import { RootState } from "../store"
 import { LoadingStatusTypes } from "../appTypes"
@@ -143,6 +145,25 @@ const groupsSlice = createSlice({
     builder.addCase(createGroupLoadLesson.fulfilled, (state, action: PayloadAction<GroupLessonsType>) => {
       if (!state.group.lessons) return
       const lessons = [...state.group.lessons, action.payload]
+      state.group.lessons = lessons
+    })
+
+    /* updateGroupLoadLesson */
+    builder.addCase(updateGroupLoadLesson.fulfilled, (state, action: PayloadAction<GroupLessonsType>) => {
+      if (!state.group.lessons) return
+      const lessons = state.group.lessons.map((el) => {
+        if (el.id === action.payload.id) {
+          return { ...el, ...action.payload }
+        }
+        return el
+      })
+      state.group.lessons = lessons
+    })
+
+    /* deleteGroupLoadLesson */
+    builder.addCase(deleteGroupLoadLesson.fulfilled, (state, action: PayloadAction<number>) => {
+      if (!state.group.lessons) return
+      const lessons = state.group.lessons.filter((el) => el.id !== action.payload)
       state.group.lessons = lessons
     })
 

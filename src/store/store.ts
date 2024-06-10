@@ -10,9 +10,11 @@ import settingsSlice from "./settings/settingsSlice"
 import appStatusSlice from "./appStatus/appStatusSlice"
 import auditoriesSlise from "./auditories/auditoriesSlise"
 import scheduleLessonsSlice from "./scheduleLessons/scheduleLessonsSlice"
+import authSlice from "./auth/authSlice"
 
 export const store = configureStore({
   reducer: {
+    auth: authSlice,
     menu: menuSlice,
     plans: plansSlice,
     groups: groupsSlice,

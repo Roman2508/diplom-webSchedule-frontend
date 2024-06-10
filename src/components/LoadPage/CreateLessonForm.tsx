@@ -1,4 +1,3 @@
-// material-ui
 import {
   Grid,
   Stack,
@@ -10,16 +9,23 @@ import {
   OutlinedInput,
   FormHelperText,
 } from "@mui/material"
+import React, { Dispatch, SetStateAction } from "react"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 
 // project import
 import { useAppDispatch } from "../../store/store"
+import { GroupLessonsType } from "../../store/groups/groupsTypes"
 import { autocompleteLessonsData } from "./autocompleteLessonsData"
-import { createGroupLoadLesson } from "../../store/groups/groupsAsyncActions"
+import {
+  createGroupLoadLesson,
+  deleteGroupLoadLesson,
+  updateGroupLoadLesson,
+} from "../../store/groups/groupsAsyncActions"
 
 interface ICreateLessonFormProps {
-  editingLesson: null
   selectedGroupId?: number
+  editableLesson: GroupLessonsType | null
+  setEditableLesson: Dispatch<SetStateAction<GroupLessonsType | null>>
 }
 
 interface ICreateLessonFields {
@@ -29,12 +35,13 @@ interface ICreateLessonFields {
   semester: number
 }
 
-const CreateLessonForm: React.FC<ICreateLessonFormProps> = ({ editingLesson, selectedGroupId }) => {
+const CreateLessonForm: React.FC<ICreateLessonFormProps> = ({ selectedGroupId, editableLesson, setEditableLesson }) => {
   const dispatch = useAppDispatch()
 
   const {
     reset,
     control,
+    setValue,
     formState: { errors, isSubmitting },
     handleSubmit,
   } = useForm<ICreateLessonFields>({
@@ -48,28 +55,43 @@ const CreateLessonForm: React.FC<ICreateLessonFormProps> = ({ editingLesson, sel
   })
 
   const onSubmit: SubmitHandler<ICreateLessonFields> = async (data) => {
-    console.log(data)
     try {
+      if (editableLesson) {
+        await dispatch(updateGroupLoadLesson({ ...data, lessonId: editableLesson.id }))
+        handleChangeEditing()
+        return
+      }
+
       if (!selectedGroupId) {
         return alert("Виберіть групу")
       }
-      // Якщо форму відкрито в модалці - оновлення викладача
-      //   if (isOpenInModal) {
-      //     if (!editingAuditoryCategory) return
-      //     await dispatch(updateAuditoryCategory({ id: editingAuditoryCategory.id, name: data.name }))
-      //     handleClose()
-      //     reset({ name: "" })
-      //   } else {
-      // Якщо форму відкрито НЕ в модалці - створення викладача
 
       await dispatch(createGroupLoadLesson({ ...data, groupId: selectedGroupId }))
-      reset({ name: "" })
-
-      //   }
+      handleChangeEditing()
     } catch (error) {
       console.log(error)
     }
   }
+
+  const handleChangeEditing = () => {
+    setEditableLesson(null)
+    reset({ name: "", hours: 1, semester: 1, type: "ЛК" })
+  }
+
+  const onDeleteLesson = () => {
+    if (!editableLesson) return
+    if (window.confirm("Ви дійсно хочете видалити елемент навантаження?")) {
+      dispatch(deleteGroupLoadLesson(editableLesson.id))
+    }
+  }
+
+  React.useEffect(() => {
+    if (!editableLesson) return
+    setValue("name", editableLesson.name)
+    setValue("hours", editableLesson.hours)
+    setValue("semester", editableLesson.semester)
+    setValue("type", editableLesson.type)
+  }, [editableLesson])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
@@ -92,11 +114,11 @@ const CreateLessonForm: React.FC<ICreateLessonFormProps> = ({ editingLesson, sel
                 placeholder="Назва дисципліни"
                 error={Boolean(errors.name)}
               />
-              {errors.name && (
+              {/*   {errors.name && (
                 <FormHelperText error id="helper-text-name">
                   {errors.name.message}
                 </FormHelperText>
-              )}
+              )} */}
               {/* <Autocomplete
                     // disablePortal
                     id="name"
@@ -213,9 +235,36 @@ const CreateLessonForm: React.FC<ICreateLessonFormProps> = ({ editingLesson, sel
         disabled={isSubmitting}
         sx={{ textTransform: "capitalize", width: "100%", p: "7.44px 15px", mt: 3 }}
       >
-        {/* {isOpenInModal && !isSubmitting ? "Оновити" : !isSubmitting ? "Створити" : "Завантаження..."} */}
-        {!isSubmitting ? "Створити" : "Завантаження..."}
+        {!isSubmitting && !editableLesson && "Створити"}
+        {!isSubmitting && editableLesson && "Оновити"}
+        {isSubmitting && "Завантаження..."}
       </Button>
+
+      {editableLesson && (
+        <>
+          <Button
+            type="submit"
+            color="primary"
+            variant="outlined"
+            disabled={isSubmitting}
+            onClick={handleChangeEditing}
+            sx={{ textTransform: "capitalize", width: "100%", p: "7.44px 15px", mt: 2 }}
+          >
+            Відмінити
+          </Button>
+
+          <Button
+            type="submit"
+            color="error"
+            variant="outlined"
+            disabled={isSubmitting}
+            onClick={onDeleteLesson}
+            sx={{ textTransform: "capitalize", width: "100%", p: "7.44px 15px", mt: 2 }}
+          >
+            Видалити
+          </Button>
+        </>
+      )}
     </form>
   )
 }
