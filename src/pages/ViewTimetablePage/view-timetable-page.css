@@ -1,0 +1,28 @@
+.view-timetable__day-box {
+  margin-bottom: 40px;
+  border-bottom: 1px solid rgb(221, 221, 221);
+}
+
+.view-timetable__lesson-box {
+  border-top: 1px solid rgb(221, 221, 221);
+  display: flex;
+}
+
+.view-timetable__lesson-box div {
+  flex: 1;
+  border-left: 1px solid rgb(221, 221, 221);
+}
+
+.view-timetable__lesson-number {
+  padding: 4px;
+  max-width: 20px;
+}
+
+.view-timetable__lesson-call {
+  padding: 4px;
+  max-width: 110px;
+}
+
+.view-timetable__lesson-details {
+  padding: 4px;
+}

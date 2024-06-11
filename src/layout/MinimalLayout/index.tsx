@@ -22,7 +22,7 @@ const MinimalLayout = () => (
       <img src={Logo} />
     </div>
 
-    <MainCard sx={{ width: "300px", backgroundColor: "#fff !important", position: "relative" }}>
+    <MainCard sx={{ backgroundColor: "#fff !important", position: "relative" }}>
       <div
         style={{
           display: "flex",
@@ -37,7 +37,8 @@ const MinimalLayout = () => (
           Розклад
         </Typography>
         <Typography sx={{ textAlign: "center", mb: 2, mt: 1 }} variant="h4">
-          Поліський національний університет
+          Поліський національний <br />
+          університет
         </Typography>
 
         <Divider />
