@@ -1,22 +1,21 @@
+import {
+  Button,
+  Stack,
+  InputLabel,
+  IconButton,
+  OutlinedInput,
+  FormHelperText,
+  InputAdornment,
+  CircularProgress,
+} from "@mui/material"
 import React from "react"
 import { useNavigate } from "react-router-dom"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons"
-import {
-  Button,
-  CircularProgress,
-  FormHelperText,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Stack,
-} from "@mui/material"
 
+import { emailPattern } from "./emailPattern"
 import { useAppDispatch } from "../../../store/store"
 import { authLogin } from "../../../store/auth/authAsyncActions"
-import { emailPattern } from "./emailPattern"
-
 const AuthLogin = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()

@@ -65,22 +65,22 @@ const App = () => {
             <Route element={<TimetablePage />} path="/timetable" />
             <Route element={<SettingsPage />} path="/settings" />
 
-            <Route element={<PlansPage />} path="/plans" />
-            <Route element={<FullPlanPage />} path="/plans/:id" />
-            <Route element={<StreamsPage />} path="/streams" />
-            <Route element={<DashboardDefault />} path="/test" />
+            {/* <Route element={<PlansPage />} path="/plans" /> */}
+            {/* <Route element={<FullPlanPage />} path="/plans/:id" /> */}
+            {/* <Route element={<StreamsPage />} path="/streams" /> */}
+            {/* <Route element={<DashboardDefault />} path="/test" /> */}
 
             {/*  */}
-            <Route element={<Color />} path="/color" />
-            <Route element={<SamplePage />} path="/sample-page" />
-            <Route element={<Shadow />} path="/shadow" />
-            <Route element={<Typography />} path="/typography" />
-            <Route element={<AntIcons />} path="/icons/ant" />
+            {/* <Route element={<Color />} path="/color" /> */}
+            {/* <Route element={<SamplePage />} path="/sample-page" /> */}
+            {/* <Route element={<Shadow />} path="/shadow" /> */}
+            {/* <Route element={<Typography />} path="/typography" /> */}
+            {/* <Route element={<AntIcons />} path="/icons/ant" /> */}
           </Route>
 
           <Route element={<MinimalLayout />}>
             <Route element={<AuthLogin />} path="/auth" />
-            <Route element={<AuthRegister />} path="/register" />
+            {/* <Route element={<AuthRegister />} path="/register" /> */}
           </Route>
         </Routes>
       </ScrollTop>

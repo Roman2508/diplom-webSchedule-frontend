@@ -2,7 +2,13 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 
 import { RootState } from "../store"
 import { LoadingStatusTypes } from "../appTypes"
-import { getSettings, updateSettings } from "./settingsAsyncActions"
+import {
+  getSettings,
+  updateCallSchedule,
+  updateColors,
+  updateSemesterTerms,
+  updateSettings,
+} from "./settingsAsyncActions"
 import { SettingsInitialStateType, SettingsType } from "./settingsTypes"
 
 const settingsInitialState: SettingsInitialStateType = {
@@ -26,6 +32,21 @@ const settingsSlice = createSlice({
 
     /* updateSettings */
     builder.addCase(updateSettings.fulfilled, (state, action: PayloadAction<SettingsType>) => {
+      state.settings = action.payload
+    })
+
+    /* updateColors */
+    builder.addCase(updateColors.fulfilled, (state, action: PayloadAction<SettingsType>) => {
+      state.settings = action.payload
+    })
+
+    /* updateCallSchedule */
+    builder.addCase(updateCallSchedule.fulfilled, (state, action: PayloadAction<SettingsType>) => {
+      state.settings = action.payload
+    })
+
+    /* updateSemesterTerms */
+    builder.addCase(updateSemesterTerms.fulfilled, (state, action: PayloadAction<SettingsType>) => {
       state.settings = action.payload
     })
   },

@@ -41,4 +41,11 @@ export type SettingsType = {
       end: string
     }
   }
+  colors: {
+    lectures: string
+    practical: string
+    laboratory: string
+    seminars: string
+    exams: string
+  }
 }

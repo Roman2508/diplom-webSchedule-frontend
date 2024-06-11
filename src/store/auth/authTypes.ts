@@ -2,6 +2,7 @@ import { LoadingStatusTypes } from "../appTypes"
 
 export type InitialStateType = {
   auth: AuthType | null
+  users: AuthType[]
   loadingStatus: LoadingStatusTypes
 }
 

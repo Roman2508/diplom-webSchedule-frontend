@@ -6,19 +6,14 @@ import { useSelector } from "react-redux"
 import MainCard from "../../components/MainCard"
 import { useAppDispatch } from "../../store/store"
 import Calendar from "../../components/TimetablePage/Calendar"
-import { StreamsType } from "../../store/streams/streamsTypes"
 import { customDayjs } from "../../components/Calendar/Calendar"
 import { TeachersType } from "../../store/teachers/teachersTypes"
-import { GroupLoadStreamType } from "../../store/groups/groupsTypes"
 import { settingsSelector } from "../../store/settings/settingsSlice"
 import LessonsTable from "../../components/TimetablePage/LessonsTable"
 import { clearGroupOverlay } from "../../store/scheduleLessons/scheduleLessonsSlice"
 import { TimetablePageHeader } from "../../components/TimetablePage/TimetablePageHeader"
-import { getGroupOverlay } from "../../store/scheduleLessons/scheduleLessonsAsyncActions"
 import { CopyTheScheduleModal } from "../../components/TimetablePage/CopyTheScheduleModal"
 import { getLastSelectedDataToLocalStorage } from "../../utils/getLastSelectedDataToLocalStorage"
-
-// ==============================|| TIMETABLE ||============================== //
 
 export interface ISelectedLesson {
   id: number
@@ -142,22 +137,3 @@ const TimetablePage = () => {
 }
 
 export { TimetablePage }
-
-// TODO:
-// 4. При зміні selectedItemId <Calendar /> 2 рази підвантажується
-// 6. Заміна викладача
-// 8. Можливість ставити декілька елементів розкладу в один час, якщо це підгрупи або спец. групи
-//    - МОЖЛИВІ НАКЛАДКИ АУДИТОРІЙ (ТРЕБА ЗРОБИТИ ПЕРЕВІРКУ ЧИ АУДИТОРІЯ ВІЛЬНА)
-//    - МОЖЛИВІ НАКЛАДКИ ВИКЛАДАЧІВ
-
-// 9. Кнопка "Сьогодні" в <Calendar />
-
-// 12. Можливість закрити для викладача, групи або аудиторії певні дати
-// 15. Не оновлюється auditory overlay коли вибирати дисципліну не з таблиці а з календаря (date slot) ???
-
-// 17. При виборі аудиторії, при подвійному кліку з'являються зайняті аудиторії ???
-// 21. При зміні типу розкладу треба очищати teachers overlay
-// 22. Екз.конс. треба дозволити ставити в розклад
-// 23. Видалити розклад з усього тижня
-// 24. Не правильно видаляються з redux store ел.розкладу які поділені на підгрупи
-// 25. При копіюванні підгруп, які стоять в один час вставлється лише 1 підгрупа 2 рази

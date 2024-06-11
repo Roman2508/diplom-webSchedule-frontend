@@ -24,7 +24,8 @@ const CustomDatePicker: React.FC<IDatePickerProps> = ({
   setValue = () => {},
 }) => {
   const PickerType = type === "date" ? DatePicker : TimePicker
-  const pickerFormat = type === "date" ? "DD.MM.YYYY" : "HH:mm"
+  // const pickerFormat = type === "date" ? "DD.MM.YYYY" : "HH:mm"
+  const pickerFormat = type === "date" ? "MM.DD.YYYY" : "HH:mm"
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">

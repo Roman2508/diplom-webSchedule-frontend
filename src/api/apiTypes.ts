@@ -252,7 +252,7 @@ export type AuthLoginType = {
 export type AuthRegisterType = {
   email: string
   password: string
-  name: string
+  fullName: string
 }
 
 export type AuthMeType = {
@@ -262,4 +262,36 @@ export type AuthMeType = {
 export type AuthResponceType = {
   user: AuthType
   accessToken: string
+}
+
+/* Settings */
+
+export type UpdateColorsPayloadType = {
+  lectures: string
+  practical: string
+  laboratory: string
+  seminars: string
+  exams: string
+}
+
+export type CallScheduleType = {
+  start: string
+  end: string
+}
+
+export type UpdateCallSchedulePayloadType = {
+  ["1"]: CallScheduleType
+  ["2"]: CallScheduleType
+  ["3"]: CallScheduleType
+  ["4"]: CallScheduleType
+  ["5"]: CallScheduleType
+  ["6"]: CallScheduleType
+  ["7"]: CallScheduleType
+}
+
+export type UpdateSemesterTermsPayloadType = {
+  firstSemesterStart: string
+  firstSemesterEnd: string
+  secondSemesterStart: string
+  secondSemesterEnd: string
 }

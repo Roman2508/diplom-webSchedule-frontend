@@ -1,21 +1,35 @@
 import axios, { InternalAxiosRequestConfig } from "axios"
 
 import {
+  AuthMeType,
+  AuthLoginType,
+  AuthResponceType,
+  AuthRegisterType,
   CreatePlanPayloadType,
   UpdateGroupPayloadType,
+  ChangeStudentsCountType,
+  UpdateColorsPayloadType,
   CreateSubjectPayloadType,
   CreateTeacherPayloadType,
   UpdateTeacherPayloadType,
   AttachTeacherPayloadType,
+  UpdateGroupLoadLessonType,
+  CreateGroupLoadLessonType,
   CreateAuditoryPayloadType,
   UpdateAuditoryPayloadType,
+  GetGroupOverlayPayloadType,
+  CopyDaySchedulePayloadType,
+  CopyWeekSchedulePayloadType,
   AddGroupToStreamPayloadType,
   UpdateEntityNamePayloadType,
+  CreateReplacementPayloadType,
   UpdateSubjectNamePayloadType,
+  UpdateCallSchedulePayloadType,
   AddLessonsToStreamPayloadType,
   UpdateSubjectHoursPayloadType,
   GetScheduleLessonsPayloadType,
   GetAuditoryOverlayPayloadType,
+  UpdateSemesterTermsPayloadType,
   CreateSpecializationPayloadType,
   UpdateSpecializationPayloadType,
   DeleteSpecializationPayloadType,
@@ -28,18 +42,8 @@ import {
   DeleteLessonFromStreamPayloadType,
   DeleteGroupFromStreamResponseType,
   FindLessonsForSchedulePayloadType,
-  GetGroupOverlayPayloadType,
-  ChangeStudentsCountType,
-  CopyWeekSchedulePayloadType,
-  CopyDaySchedulePayloadType,
-  CreateReplacementPayloadType,
-  CreateGroupLoadLessonType,
-  UpdateGroupLoadLessonType,
-  AuthLoginType,
-  AuthResponceType,
-  AuthRegisterType,
-  AuthMeType,
 } from "./apiTypes"
+import { AuthType } from "../store/auth/authTypes"
 import { StreamsType } from "../store/streams/streamsTypes"
 import { SettingsType } from "../store/settings/settingsTypes"
 import { ScheduleLessonType } from "../store/scheduleLessons/scheduleLessonsTypes"
@@ -47,26 +51,8 @@ import { TeachersCategoryType, TeachersType } from "../store/teachers/teachersTy
 import { PlanType, PlansCategoriesType, PlansType } from "../store/plans/plansTypes"
 import { GroupCategoriesType, GroupLessonsType, GroupsType } from "../store/groups/groupsTypes"
 import { AuditoriesTypes, AuditoryCategoriesTypes } from "../store/auditories/auditoriesTypes"
-import { AuthType } from "../store/auth/authTypes"
 
-const instanse = axios.create({
-  baseURL: "http://localhost:7777/",
-  // headers: {
-  //   ['Content-Type']: 'application/json',
-  //   responseType: 'json',
-  // },
-  // baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:4444/' : 'https://timetable-server.onrender.com/',
-})
-
-// instanse.interceptors.request.use((config) => {
-//   if (config.headers) {
-//     config.headers.Authorization = String(
-//       "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE3ODQ0NTU3LCJleHAiOjE3MjA0MzY1NTd9.g5eQhq-zZuc-rpP2XthjP8sIsxOuUpjQ8sHUIkRxhRk"
-//     )
-
-//     return config
-//   }
-// })
+const instanse = axios.create({ baseURL: "http://localhost:7777/" })
 
 instanse.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const token = window.localStorage.getItem("webSchedule-token")
@@ -368,6 +354,15 @@ export const settingsAPI = {
     const { id, ...rest } = payload
     return instanse.patch<SettingsType>(`/settings/${id}`, rest)
   },
+  updateColors(payload: UpdateColorsPayloadType) {
+    return instanse.patch<SettingsType>(`/settings/colors`, payload)
+  },
+  updateCallSchedule(payload: UpdateCallSchedulePayloadType) {
+    return instanse.patch<SettingsType>(`/settings/call-schedule`, payload)
+  },
+  updateSemesterTerms(payload: UpdateSemesterTermsPayloadType) {
+    return instanse.patch<SettingsType>(`/settings/semester-terms`, payload)
+  },
 }
 
 export const authAPI = {
@@ -379,5 +374,16 @@ export const authAPI = {
   },
   getMe(payload: AuthMeType) {
     return instanse.post<AuthType>("/auth/me", payload)
+  },
+
+  getUsers() {
+    return instanse.get<AuthType[]>("/users")
+  },
+  updateUser(payload: AuthType & { id: number }) {
+    const { id, ...data } = payload
+    return instanse.patch<AuthType>(`/users/${id}`, data)
+  },
+  deleteUser(id: number) {
+    return instanse.delete<number>(`/users/${id}`)
   },
 }
