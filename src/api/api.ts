@@ -5,11 +5,10 @@ import {
   AuthLoginType,
   AuthResponceType,
   AuthRegisterType,
-  CreatePlanPayloadType,
   UpdateGroupPayloadType,
   ChangeStudentsCountType,
   UpdateColorsPayloadType,
-  CreateSubjectPayloadType,
+  ViewSchedulePayloadType,
   CreateTeacherPayloadType,
   UpdateTeacherPayloadType,
   AttachTeacherPayloadType,
@@ -20,13 +19,9 @@ import {
   GetGroupOverlayPayloadType,
   CopyDaySchedulePayloadType,
   CopyWeekSchedulePayloadType,
-  AddGroupToStreamPayloadType,
   UpdateEntityNamePayloadType,
   CreateReplacementPayloadType,
-  UpdateSubjectNamePayloadType,
   UpdateCallSchedulePayloadType,
-  AddLessonsToStreamPayloadType,
-  UpdateSubjectHoursPayloadType,
   GetScheduleLessonsPayloadType,
   GetAuditoryOverlayPayloadType,
   UpdateSemesterTermsPayloadType,
@@ -34,24 +29,18 @@ import {
   UpdateSpecializationPayloadType,
   DeleteSpecializationPayloadType,
   CreateScheduleLessonsPayloadType,
-  DeleteGroupFromStreamPayloadType,
   CreateTeacherCategoryPayloadType,
   UpdateTeacherCategoryPayloadType,
   UpdateScheduleLessonsPayloadType,
   UpdateAuditoryCategoryPayloadType,
-  DeleteLessonFromStreamPayloadType,
-  DeleteGroupFromStreamResponseType,
   FindLessonsForSchedulePayloadType,
-  ViewSchedulePayloadType,
 } from "./apiTypes"
 import { AuthType } from "../store/auth/authTypes"
-import { StreamsType } from "../store/streams/streamsTypes"
 import { SettingsType } from "../store/settings/settingsTypes"
 import { ScheduleLessonType } from "../store/scheduleLessons/scheduleLessonsTypes"
 import { TeachersCategoryType, TeachersType } from "../store/teachers/teachersTypes"
-import { PlanType, PlansCategoriesType, PlansType } from "../store/plans/plansTypes"
-import { GroupCategoriesType, GroupLessonsType, GroupsType } from "../store/groups/groupsTypes"
 import { AuditoriesTypes, AuditoryCategoriesTypes } from "../store/auditories/auditoriesTypes"
+import { GroupCategoriesType, GroupLessonsType, GroupsType } from "../store/groups/groupsTypes"
 
 const instanse = axios.create({ baseURL: "http://localhost:7777/" })
 
@@ -129,56 +118,6 @@ export const teachersAPI = {
   },
   deleteTeacher(id: number) {
     return instanse.delete(`/teachers/${id}`)
-  },
-}
-
-export const plansAPI = {
-  /* categories */
-  getPlansCategories() {
-    return instanse.get<PlansCategoriesType[]>("/plan-categories")
-  },
-  createPlanCategory(payload: { name: string }) {
-    return instanse.post<PlansCategoriesType>("/plan-categories", payload)
-  },
-  updatePlanCategory(payload: { name: string; id: number }) {
-    return instanse.patch<PlansCategoriesType>(`/plan-categories/${payload.id}`, {
-      name: payload.name,
-    })
-  },
-  deletePlanCategory(id: number) {
-    return instanse.delete<number>(`/plan-categories/${id}`)
-  },
-
-  /* plans */
-  createPlan(payload: CreatePlanPayloadType) {
-    return instanse.post<PlansType>("/plans", payload)
-  },
-  updatePlan(payload: { name: string; id: number }) {
-    return instanse.patch<PlansType>(`/plans/${payload.id}`, {
-      name: payload.name,
-    })
-  },
-  deletePlan(id: number) {
-    return instanse.delete<number>(`/plans/${id}`)
-  },
-}
-
-export const planSubjectsAPI = {
-  getSubjects(id: number) {
-    return instanse.get<PlanType>(`/plans/${id}`)
-  },
-  createSubject(payload: CreateSubjectPayloadType) {
-    return instanse.post<any>("/plan-subjects", payload)
-  },
-  updateSubjectName(payload: UpdateSubjectNamePayloadType) {
-    return instanse.patch<{ id: number; name: string; cmk: number }[]>("/plan-subjects/name", payload)
-  },
-  updateSubjectHours(payload: UpdateSubjectHoursPayloadType) {
-    const { id, ...data } = payload
-    return instanse.patch<any>(`/plan-subjects/hours/${id}`, data)
-  },
-  deleteSubject(id: number) {
-    return instanse.delete<number>(`/plan-subjects/${id}`)
   },
 }
 
@@ -264,44 +203,6 @@ export const groupLoadLessonsAPI = {
 
   unpinTeacher(lessonId: number) {
     return instanse.patch<{ lessonId: number }>(`/group-load-lessons/unpin-teacher/${lessonId}`)
-  },
-}
-
-export const streamsAPI = {
-  getStreams() {
-    return instanse.get<StreamsType[]>("/streams")
-  },
-  createStream(payload: { name: string }) {
-    return instanse.post<StreamsType>("/streams", payload)
-  },
-  updateStreamName(payload: UpdateEntityNamePayloadType) {
-    const { id, name } = payload
-    return instanse.patch<StreamsType>(`/streams/name/${id}`, { name })
-  },
-  deleteStream(id: number) {
-    return instanse.delete<number>(`/streams/${id}`)
-  },
-
-  /* groups (add or delete) */
-  addGroupToStream(payload: AddGroupToStreamPayloadType) {
-    const { groupId, streamId } = payload
-    return instanse.patch<StreamsType>(`/streams/group/add/${streamId}`, { groupId })
-  },
-  deleteGroupFromStream(payload: DeleteGroupFromStreamPayloadType) {
-    const { groupId, streamId } = payload
-    return instanse.delete<DeleteGroupFromStreamResponseType>(`/streams/group/remove/${streamId}/${groupId}`)
-  },
-
-  /* lessons (get, add or delete)  */
-  getStreamLessonsByGroupId(id: number) {
-    return instanse.get<GroupLessonsType[]>(`/group-load-lessons/${id}`)
-  },
-
-  addLessonToStream(payload: AddLessonsToStreamPayloadType) {
-    return instanse.patch<GroupLessonsType[]>(`/streams/lesson/add/${payload.streamId}`, payload)
-  },
-  deleteLessonFromStream(payload: DeleteLessonFromStreamPayloadType) {
-    return instanse.patch<GroupLessonsType[]>(`/streams/lesson/remove`, payload)
   },
 }
 

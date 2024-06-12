@@ -1,13 +1,7 @@
-// project import
-import pages from './pages'
-import dashboard from './dashboard'
-import utilities from './utilities'
-import support from './support'
-
-// ==============================|| MENU ITEMS ||============================== //
+import dashboard from "./dashboard"
 
 const menuItems = {
-  items: [dashboard, pages, utilities, support],
+  items: [dashboard],
 }
 
 export type MenuItemType = (typeof menuItems.items)[0]

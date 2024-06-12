@@ -1,5 +1,4 @@
-import React, { lazy } from "react"
-import Loadable from "./components/Loadable"
+import React from "react"
 import { Route, Routes, useNavigate } from "react-router-dom"
 
 import "./App.css"
@@ -10,33 +9,19 @@ import "react-toastify/dist/ReactToastify.css"
 import { useAppDispatch } from "./store/store"
 import { LoadPage } from "./pages/Load/LoadPage"
 import MinimalLayout from "./layout/MinimalLayout"
-import { PlansPage } from "./pages/Plans/PlansPage"
+import { AuthPage } from "./pages/AuthPage/AuthPage"
 import { authMe } from "./store/auth/authAsyncActions"
 import { GroupsPage } from "./pages/Groups/GroupsPage"
-import { StreamsPage } from "./pages/Streams/StreamsPage"
 import FullGroupPage from "./pages/FullGroup/FullGroupPage"
-import { FullPlanPage } from "./pages/FullPlan/FullPlanPage"
 import { TeachersPage } from "./pages/Teachers/TeachersPage"
 import { SettingsPage } from "./pages/Settings/SettingsPage"
+import { DefaultPage } from "./pages/DefaultPage/DefaultPage"
 import { TimetablePage } from "./pages/Timetable/TimetablePage"
 import { AuditoriesPage } from "./pages/Auditories/AuditoriesPage"
-import AuthLogin from "./pages/authentication/auth-forms/AuthLogin"
 import { DistributionPage } from "./pages/Distribution/DistributionPage"
-import AuthRegister from "./pages/authentication/auth-forms/AuthRegister"
 import { ViewTimetablePage } from "./pages/ViewTimetablePage/ViewTimetablePage"
-import { AuthPage } from "./pages/AuthPage/AuthPage"
-import { DefaultPage } from "./pages/DefaultPage/DefaultPage"
 
-// render - dashboard
-const DashboardDefault = Loadable(lazy(() => import("./pages/dashboard")))
-
-// render - sample page
-const SamplePage = Loadable(lazy(() => import("./pages/extra-pages/SamplePage")))
-
-const Color = Loadable(lazy(() => import("./pages/components-overview/Color")))
-const Shadow = Loadable(lazy(() => import("./pages/components-overview/Shadow")))
-const AntIcons = Loadable(lazy(() => import("./pages/components-overview/AntIcons")))
-const Typography = Loadable(lazy(() => import("./pages/components-overview/Typography")))
+// const DashboardDefault = Loadable(lazy(() => import("./pages/dashboard")))
 
 const App = () => {
   const dispatch = useAppDispatch()
@@ -66,23 +51,11 @@ const App = () => {
             <Route element={<DistributionPage />} path="/distribution" />
             <Route element={<TimetablePage />} path="/timetable" />
             <Route element={<SettingsPage />} path="/settings" />
-
-            {/* <Route element={<PlansPage />} path="/plans" /> */}
-            {/* <Route element={<FullPlanPage />} path="/plans/:id" /> */}
-            {/* <Route element={<StreamsPage />} path="/streams" /> */}
-            {/* <Route element={<DashboardDefault />} path="/test" /> */}
-
-            {/*  */}
-            {/* <Route element={<Color />} path="/color" /> */}
-            {/* <Route element={<SamplePage />} path="/sample-page" /> */}
-            {/* <Route element={<Shadow />} path="/shadow" /> */}
-            {/* <Route element={<Typography />} path="/typography" /> */}
-            {/* <Route element={<AntIcons />} path="/icons/ant" /> */}
           </Route>
 
           <Route element={<MinimalLayout />}>
-            <Route element={<AuthPage />} path="/auth" />
             <Route element={<DefaultPage />} path="/" />
+            <Route element={<AuthPage />} path="/auth" />
             <Route element={<ViewTimetablePage />} path="/view-schedule" />
           </Route>
         </Routes>

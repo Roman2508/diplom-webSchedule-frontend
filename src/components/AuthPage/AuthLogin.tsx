@@ -13,9 +13,10 @@ import { useNavigate } from "react-router-dom"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons"
 
-import { emailPattern } from "./emailPattern"
-import { useAppDispatch } from "../../../store/store"
-import { authLogin } from "../../../store/auth/authAsyncActions"
+import { emailPattern } from "./emailPattern.ts"
+import { useAppDispatch } from "../../store/store"
+import { authLogin } from "../../store/auth/authAsyncActions.ts"
+
 const AuthLogin = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()

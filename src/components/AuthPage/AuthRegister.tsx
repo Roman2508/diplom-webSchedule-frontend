@@ -13,9 +13,9 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons"
 
 import { emailPattern } from "./emailPattern"
-import { useAppDispatch } from "../../../store/store"
-import { authRegister, updateUser } from "../../../store/auth/authAsyncActions"
-import { AuthType } from "../../../store/auth/authTypes"
+import { useAppDispatch } from "../../store/store"
+import { AuthType } from "../../store/auth/authTypes"
+import { authRegister, updateUser } from "../../store/auth/authAsyncActions"
 
 interface IAuthRegisterProps {
   editedUser: AuthType | null

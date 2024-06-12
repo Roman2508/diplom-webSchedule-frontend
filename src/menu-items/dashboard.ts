@@ -78,8 +78,16 @@ const dashboard = {
     {
       id: "timetable",
       title: "Розклад",
-      type: "timetable",
+      type: "item",
       url: "/timetable",
+      icon: icons.CalendarOutlined,
+      breadcrumbs: false,
+    },
+    {
+      id: "view-timetable",
+      title: "Перегляд розкладу",
+      type: "item",
+      url: "/view-schedule",
       icon: icons.CalendarOutlined,
       breadcrumbs: false,
     },
@@ -91,49 +99,6 @@ const dashboard = {
       icon: icons.SettingOutlined,
       breadcrumbs: false,
     },
-    // {
-    //   id: 'plans',
-    //   title: 'Плани',
-    //   type: 'item',
-    //   url: '/plans',
-    //   icon: icons.BookOutlined,
-    //   breadcrumbs: false,
-    // },
-    // {
-    //   id: 'streams',
-    //   title: 'Потоки',
-    //   type: 'item',
-    //   url: '/streams',
-    //   icon: icons.GroupOutlined,
-    //   breadcrumbs: false,
-    // },
-    // {
-    //   id: "controls",
-    //   title: "Контроль вичиткия",
-    //   type: "item",
-    //   url: "/controls",
-    //   icon: icons.FormOutlined,
-    //   breadcrumbs: false,
-    // },
-    // {
-    //   id: "find-free-auditory",
-    //   title: "Пошук вільної аудиторії",
-    //   type: "item",
-    //   url: "/find-free-auditory",
-    //   icon: icons.FileSearchOutlined,
-    //   breadcrumbs: false,
-    // },
-    /*  */
-    // {
-    //   id: "students",
-    //   title: "Студенти",
-    //   type: "item",
-    //   url: "/students",
-    //   icon: icons.UserOutlined,
-    //   breadcrumbs: false,
-    // },
-
-    /*  */
   ],
 }
 

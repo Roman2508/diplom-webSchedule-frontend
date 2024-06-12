@@ -2,23 +2,19 @@ import { useDispatch } from "react-redux"
 import { configureStore } from "@reduxjs/toolkit"
 
 import menuSlice from "./menu/menuSlice"
-import plansSlice from "./plans/plansSlice"
+import authSlice from "./auth/authSlice"
 import groupsSlice from "./groups/groupsSlice"
-import streamsSlice from "./streams/streamsSlice"
 import teachersSlice from "./teachers/teachersSlice"
 import settingsSlice from "./settings/settingsSlice"
 import appStatusSlice from "./appStatus/appStatusSlice"
 import auditoriesSlise from "./auditories/auditoriesSlise"
 import scheduleLessonsSlice from "./scheduleLessons/scheduleLessonsSlice"
-import authSlice from "./auth/authSlice"
 
 export const store = configureStore({
   reducer: {
     auth: authSlice,
     menu: menuSlice,
-    plans: plansSlice,
     groups: groupsSlice,
-    streams: streamsSlice,
     teachers: teachersSlice,
     settings: settingsSlice,
     appStatus: appStatusSlice,

@@ -1,34 +1,32 @@
-import React from "react"
-import { useSelector } from "react-redux"
-import { HexColorInput, HexColorPicker } from "react-colorful"
-import { MuiColorInput } from "mui-color-input"
 import {
   Box,
-  Button,
-  CircularProgress,
-  Divider,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
   Tab,
+  Grid,
   Tabs,
+  Button,
+  Select,
+  Divider,
+  MenuItem,
   Typography,
+  InputLabel,
+  FormControl,
+  CircularProgress,
+  SelectChangeEvent,
 } from "@mui/material"
-import debounce from "lodash.debounce"
+import React from "react"
+import { useSelector } from "react-redux"
+import { MuiColorInput } from "mui-color-input"
 
 import MainCard from "../../components/MainCard"
 import { useAppDispatch } from "../../store/store"
+import { AuthType } from "../../store/auth/authTypes"
+import { authSelector } from "../../store/auth/authSlice"
+import AuthRegister from "../../components/AuthPage/AuthRegister"
 import { CustomDatePicker } from "../../components/CustomDatePicker"
 import { settingsSelector } from "../../store/settings/settingsSlice"
+import { deleteUser, getUsers } from "../../store/auth/authAsyncActions"
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner"
 import { updateCallSchedule, updateColors, updateSemesterTerms } from "../../store/settings/settingsAsyncActions"
-import AuthRegister from "../authentication/auth-forms/AuthRegister"
-import { deleteUser, getUsers } from "../../store/auth/authAsyncActions"
-import { authSelector } from "../../store/auth/authSlice"
-import { AuthType } from "../../store/auth/authTypes"
 
 const lessons = ["1", "2", "3", "4", "5", "6", "7"] as const
 

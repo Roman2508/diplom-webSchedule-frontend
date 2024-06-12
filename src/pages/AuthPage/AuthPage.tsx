@@ -1,9 +1,9 @@
+import { useNavigate } from "react-router-dom"
 import { Button, Divider, Typography } from "@mui/material"
 
 import Logo from "../../assets/logo.svg"
 import MainCard from "../../components/MainCard"
-import AuthLogin from "../authentication/auth-forms/AuthLogin"
-import { useNavigate } from "react-router-dom"
+import AuthLogin from "../../components/AuthPage/AuthLogin"
 
 const AuthPage = () => {
   const navigate = useNavigate()
