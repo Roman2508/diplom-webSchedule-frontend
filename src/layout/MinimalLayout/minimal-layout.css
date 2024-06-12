@@ -1,9 +1,16 @@
 .blur-wrapper {
-  overflow: hidden;
+  overflow-y: auto;
+  display: "flex";
+  align-items: flex-start;
+  justify-content: "center";
+  overflow-y: auto;
+  padding: 40px 0;
+  height: 100vh;
+  position: "relative";
 }
 
 .blur-logo-bg {
-  position: absolute;
+  position: fixed;
   z-index: 0;
   top: 50%;
   left: 50%;

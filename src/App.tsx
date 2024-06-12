@@ -24,6 +24,7 @@ import AuthLogin from "./pages/authentication/auth-forms/AuthLogin"
 import { DistributionPage } from "./pages/Distribution/DistributionPage"
 import AuthRegister from "./pages/authentication/auth-forms/AuthRegister"
 import { ViewTimetablePage } from "./pages/ViewTimetablePage/ViewTimetablePage"
+import { AuthPage } from "./pages/AuthPage/AuthPage"
 
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import("./pages/dashboard")))
@@ -80,7 +81,8 @@ const App = () => {
           </Route>
 
           <Route element={<MinimalLayout />}>
-            <Route element={<AuthLogin />} path="/auth" />
+            <Route element={<AuthPage />} path="/auth" />
+            {/* <Route element={<AuthLogin />} path="/auth" /> */}
             <Route element={<ViewTimetablePage />} path="/view-timetable" />
             {/* <Route element={<AuthRegister />} path="/register" /> */}
           </Route>

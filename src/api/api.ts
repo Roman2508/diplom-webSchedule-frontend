@@ -42,6 +42,7 @@ import {
   DeleteLessonFromStreamPayloadType,
   DeleteGroupFromStreamResponseType,
   FindLessonsForSchedulePayloadType,
+  ViewSchedulePayloadType,
 } from "./apiTypes"
 import { AuthType } from "../store/auth/authTypes"
 import { StreamsType } from "../store/streams/streamsTypes"
@@ -309,6 +310,10 @@ export const scheduleLessonsAPI = {
     const { semester, type, id } = payload
     return instanse.get<ScheduleLessonType[]>(`/schedule-lessons/${semester}/${type}/${id}`)
   },
+  viewSchedule(payload: ViewSchedulePayloadType) {
+    const { semester, teacher, group } = payload
+    return instanse.get<ScheduleLessonType[]>(`/schedule-lessons/view/${semester}/${teacher}/${group}`)
+  },
   getAuditoryOverlay(payload: GetAuditoryOverlayPayloadType) {
     const { date, lessonNumber, auditoryId } = payload
     return instanse.get<{ id: number; name: string }[]>(
@@ -347,8 +352,8 @@ export const scheduleLessonsAPI = {
 }
 
 export const settingsAPI = {
-  getSettings(id: number = 1) {
-    return instanse.get<SettingsType>(`/settings/${id}`)
+  getSettings() {
+    return instanse.get<SettingsType>(`/settings/${1}`)
   },
   updateSettings(payload: SettingsType) {
     const { id, ...rest } = payload

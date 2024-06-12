@@ -12,10 +12,11 @@ import {
   deleteScheduleLesson,
   updateScheduleLesson,
   findLessonsForSchedule,
+  viewSchedule,
 } from "./scheduleLessonsAsyncActions"
 import { RootState } from "../store"
 import { LoadingStatusTypes } from "../appTypes"
-import { GroupLoadType } from "../groups/groupsTypes"
+import { GroupLessonsType } from "../groups/groupsTypes"
 import { ScheduleLessonInitialStateType, ScheduleLessonType } from "./scheduleLessonsTypes"
 
 const scheduleLessonsInitialState: ScheduleLessonInitialStateType = {
@@ -48,10 +49,18 @@ const scheduleLessonsSlice = createSlice({
     clearGroupOverlay(state) {
       state.groupOverlay = []
     },
+    clearTeacherLessons(state) {
+      state.scheduleLessons = null
+    },
   },
   extraReducers: (builder) => {
     /* getScheduleLessons */
     builder.addCase(getScheduleLessons.fulfilled, (state, action: PayloadAction<ScheduleLessonType[]>) => {
+      state.scheduleLessons = action.payload
+    })
+
+    /* viewSchedule */
+    builder.addCase(viewSchedule.fulfilled, (state, action: PayloadAction<ScheduleLessonType[]>) => {
       state.scheduleLessons = action.payload
     })
 
@@ -123,7 +132,7 @@ const scheduleLessonsSlice = createSlice({
     })
 
     /* findLessonsForSchedule */
-    builder.addCase(findLessonsForSchedule.fulfilled, (state, action: PayloadAction<GroupLoadType[]>) => {
+    builder.addCase(findLessonsForSchedule.fulfilled, (state, action: PayloadAction<GroupLessonsType[]>) => {
       state.groupLoad = action.payload
     })
     builder.addCase(findLessonsForSchedule.rejected, (state) => {
@@ -134,7 +143,13 @@ const scheduleLessonsSlice = createSlice({
 
 export const scheduleLessonsSelector = (state: RootState) => state.scheduleLessons
 
-export const { setLoadingStatus, clearGroupLoad, deleteTeacherOverlay, clearTeacherOverlay, clearGroupOverlay } =
-  scheduleLessonsSlice.actions
+export const {
+  clearGroupLoad,
+  setLoadingStatus,
+  clearGroupOverlay,
+  clearTeacherOverlay,
+  clearTeacherLessons,
+  deleteTeacherOverlay,
+} = scheduleLessonsSlice.actions
 
 export default scheduleLessonsSlice.reducer

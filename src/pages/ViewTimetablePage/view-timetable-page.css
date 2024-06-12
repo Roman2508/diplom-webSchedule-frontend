@@ -1,3 +1,18 @@
+.view-timetable-container {
+  position: relative;
+  background-color: #fff !important;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.view-timetable-inner {
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 12;
+}
+
 .view-timetable__day-box {
   margin-bottom: 40px;
   border-bottom: 1px solid rgb(221, 221, 221);

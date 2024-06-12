@@ -186,6 +186,12 @@ export type AttachTeacherPayloadType = {
 
 /* schedule lessons */
 
+export type ViewSchedulePayloadType = {
+  semester: number
+  teacher: number
+  group: number
+}
+
 export type GetScheduleLessonsPayloadType = {
   semester: number
   type: "group" | "teacher" | "auditory"

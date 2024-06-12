@@ -10,9 +10,10 @@ import {
   CopyWeekSchedulePayloadType,
   CopyDaySchedulePayloadType,
   CreateReplacementPayloadType,
+  ViewSchedulePayloadType,
 } from "../../api/apiTypes"
 import { LoadingStatusTypes } from "../appTypes"
-import { setLoadingStatus } from "./scheduleLessonsSlice"
+import { clearTeacherLessons, setLoadingStatus } from "./scheduleLessonsSlice"
 import { setAppAlert } from "../appStatus/appStatusSlice"
 import { ScheduleLessonType } from "./scheduleLessonsTypes"
 import { groupLoadLessonsAPI, scheduleLessonsAPI } from "../../api/api"
@@ -25,6 +26,30 @@ export const getScheduleLessons = createAsyncThunk(
     try {
       const { data } = await scheduleLessonsAPI.getLessons(payload)
       // thunkAPI.dispatch(setAppAlert({ message: 'Розклад завантажено', status: 'success' }))
+      thunkAPI.dispatch(setLoadingStatus(LoadingStatusTypes.SUCCESS))
+      return data
+    } catch (error: any) {
+      thunkAPI.dispatch(setLoadingStatus(LoadingStatusTypes.ERROR))
+
+      thunkAPI.dispatch(
+        setAppAlert({
+          message: (error as any)?.response?.data?.message || error.message,
+          status: "error",
+        })
+      )
+      throw error
+    }
+  }
+)
+
+export const viewSchedule = createAsyncThunk(
+  "schedule-lessons/viewSchedule",
+  async (payload: ViewSchedulePayloadType, thunkAPI): Promise<ScheduleLessonType[]> => {
+    thunkAPI.dispatch(setLoadingStatus(LoadingStatusTypes.LOADING))
+    thunkAPI.dispatch(clearTeacherLessons())
+    try {
+      const { data } = await scheduleLessonsAPI.viewSchedule(payload)
+      thunkAPI.dispatch(setAppAlert({ message: "Розклад завантажено", status: "success" }))
       thunkAPI.dispatch(setLoadingStatus(LoadingStatusTypes.SUCCESS))
       return data
     } catch (error: any) {
