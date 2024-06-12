@@ -1,5 +1,6 @@
 import React from "react"
 import { useSelector } from "react-redux"
+import { Link } from "react-router-dom"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { Button, Stack, InputLabel, CircularProgress } from "@mui/material"
 import { Grid, Paper, Select, Divider, MenuItem, Typography, ToggleButton, ToggleButtonGroup } from "@mui/material"
@@ -80,6 +81,12 @@ const ViewTimetablePage = () => {
 
   return (
     <Paper className="view-timetable-container">
+      <Link to="/auth">
+        <Button sx={{ position: "absolute", right: 20, top: 40 }} variant="outlined">
+          Авторизуватись
+        </Button>
+      </Link>
+
       <div className="view-timetable-inner">
         <img src={Logo} width={100} />
         <Typography sx={{ textAlign: "center", fontSize: 14, mt: 2 }} variant="overline">
@@ -94,19 +101,7 @@ const ViewTimetablePage = () => {
         <Grid container rowSpacing={4.5} columnSpacing={2.75} sx={{ justifyContent: "center", p: 0 }}>
           <Grid item xs={12}>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 20,
-                  /*       display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 0, */
-                }}
-              >
+              <div className="view-timetable__filter-row">
                 <Controller
                   name="category"
                   control={control}
@@ -124,6 +119,7 @@ const ViewTimetablePage = () => {
                             field.onChange(e)
                             handleChangeCategory(Number(e.target.value))
                           }}
+                          className="view-timetable-select"
                           sx={{ width: "350px" }}
                         >
                           <MenuItem value="0">Всі</MenuItem>
@@ -142,7 +138,15 @@ const ViewTimetablePage = () => {
                     return (
                       <Stack spacing={1} sx={{ mt: 2 }}>
                         <InputLabel htmlFor="group">Група</InputLabel>
-                        <Select fullWidth {...field} type="text" id="group" name="group" sx={{ width: "350px" }}>
+                        <Select
+                          fullWidth
+                          {...field}
+                          type="text"
+                          id="group"
+                          name="group"
+                          className="view-timetable-select"
+                          sx={{ width: "350px" }}
+                        >
                           <MenuItem value="0">Всі</MenuItem>
                           {groups.map((group) => (
                             <MenuItem value={group.id}>{group.name}</MenuItem>
@@ -154,14 +158,7 @@ const ViewTimetablePage = () => {
                 />
               </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "flex-end",
-                  justifyContent: "center",
-                  gap: 20,
-                }}
-              >
+              <div className="view-timetable__filter-row" style={{ alignItems: "flex-end" }}>
                 <Controller
                   name="teacher"
                   control={control}
@@ -177,6 +174,7 @@ const ViewTimetablePage = () => {
                           name="teacher"
                           sx={{ width: "350px" }}
                           value={watch("teacher")}
+                          className="view-timetable-select"
                         >
                           {/* <MenuItem value={teacher.id}>{getLastnameAndInitials(teacher)}</MenuItem> */}
                           <MenuItem value="0">Всі</MenuItem>
@@ -191,10 +189,10 @@ const ViewTimetablePage = () => {
                   }}
                 />
                 <ToggleButtonGroup value={semester} exclusive onChange={handleSelectSemester}>
-                  <ToggleButton value="1" sx={{ padding: "7px" }}>
+                  <ToggleButton value="1" className="view-timetable__filter-semester">
                     Семестр 1
                   </ToggleButton>
-                  <ToggleButton value="2" sx={{ padding: "7px" }}>
+                  <ToggleButton value="2" className="view-timetable__filter-semester">
                     Семестр 2
                   </ToggleButton>
                 </ToggleButtonGroup>
@@ -203,6 +201,7 @@ const ViewTimetablePage = () => {
                   type="submit"
                   color="primary"
                   variant="contained"
+                  className="view-timetable__filter-button"
                   disabled={(!watch("group") && !watch("teacher")) || isSubmitting}
                   sx={{ textTransform: "capitalize", p: "7.44px 15px", mt: 3, width: "155px" }}
                 >
@@ -230,7 +229,9 @@ const ViewTimetablePage = () => {
                       <div className="view-timetable__lesson-box" key={lesson.lessonNumber}>
                         <div className="view-timetable__lesson-number">{lesson.lessonNumber}</div>
                         <div className="view-timetable__lesson-call">
-                          {lessonCall.start} - {lessonCall.end}
+                          <p style={{ margin: 0 }}>
+                            {lessonCall.start} - {lessonCall.end}
+                          </p>
                         </div>
                         <div className="view-timetable__lesson-details">
                           {lesson.name} | {lesson.group.name}

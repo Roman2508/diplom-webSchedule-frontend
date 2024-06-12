@@ -10,7 +10,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 12;
+}
+
+.view-timetable__filter-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.view-timetable__filter-semester {
+  padding: 7px;
 }
 
 .view-timetable__day-box {
@@ -40,4 +50,55 @@
 
 .view-timetable__lesson-details {
   padding: 4px;
+}
+
+@media (max-width: 800px) {
+  .view-timetable-container {
+    min-height: 100vh;
+    height: auto;
+    padding-bottom: 40px;
+  }
+  .view-timetable__filter-row {
+    flex-direction: column;
+    align-items: center !important;
+    gap: 0;
+  }
+  .view-timetable__filter-semester {
+    margin-top: 25px;
+    width: 175px;
+  }
+  .view-timetable__filter-button {
+    margin-top: 25px;
+    width: 350px;
+  }
+}
+
+@media (max-width: 420px) {
+  .view-timetable-select {
+    max-width: 300px;
+    min-width: 300px;
+    width: 100%;
+  }
+  .view-timetable__filter-semester {
+    width: 150px;
+  }
+  .view-timetable__filter-button {
+    width: 300px;
+  }
+  .view-timetable__lesson-call {
+    max-width: 50px;
+  }
+}
+
+@media (max-width: 350px) {
+  .view-timetable-select {
+    min-width: 260px;
+    max-width: 260px;
+  }
+  .view-timetable__filter-semester {
+    width: 130px;
+  }
+  .view-timetable__filter-button {
+    width: 260px;
+  }
 }

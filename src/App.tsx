@@ -25,6 +25,7 @@ import { DistributionPage } from "./pages/Distribution/DistributionPage"
 import AuthRegister from "./pages/authentication/auth-forms/AuthRegister"
 import { ViewTimetablePage } from "./pages/ViewTimetablePage/ViewTimetablePage"
 import { AuthPage } from "./pages/AuthPage/AuthPage"
+import { DefaultPage } from "./pages/DefaultPage/DefaultPage"
 
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import("./pages/dashboard")))
@@ -47,7 +48,7 @@ const App = () => {
     if (token) {
       dispatch(authMe({ token }))
     } else {
-      navigate("/auth")
+      navigate("/")
     }
   }, [])
 
@@ -56,7 +57,6 @@ const App = () => {
       <ScrollTop>
         <Routes>
           <Route element={<MainLayout />}>
-            <Route element={<GroupsPage />} path="/" />
             <Route element={<GroupsPage />} path="/groups" />
             <Route element={<FullGroupPage />} path="/groups/:id" />
             <Route element={<FullGroupPage />} path="/groups/create/:categoryId" />
@@ -82,9 +82,8 @@ const App = () => {
 
           <Route element={<MinimalLayout />}>
             <Route element={<AuthPage />} path="/auth" />
-            {/* <Route element={<AuthLogin />} path="/auth" /> */}
-            <Route element={<ViewTimetablePage />} path="/view-timetable" />
-            {/* <Route element={<AuthRegister />} path="/register" /> */}
+            <Route element={<DefaultPage />} path="/" />
+            <Route element={<ViewTimetablePage />} path="/view-schedule" />
           </Route>
         </Routes>
       </ScrollTop>

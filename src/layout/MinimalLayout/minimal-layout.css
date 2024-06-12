@@ -1,12 +1,8 @@
 .blur-wrapper {
   overflow-y: auto;
-  display: "flex";
-  align-items: flex-start;
-  justify-content: "center";
-  overflow-y: auto;
   padding: 40px 0;
   height: 100vh;
-  position: "relative";
+  position: relative;
 }
 
 .blur-logo-bg {
@@ -21,4 +17,11 @@
 .blur-logo-bg img {
   height: calc(90vh);
   width: auto;
+}
+
+@media (max-width: 800px) {
+  .blur-wrapper {
+    padding: 0;
+    height: auto !important;
+  }
 }
