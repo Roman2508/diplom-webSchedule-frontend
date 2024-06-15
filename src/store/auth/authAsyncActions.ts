@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 
+import { AuthType } from "./authTypes"
 import { authAPI } from "../../api/api"
 import { setLoadingStatus } from "./authSlice"
 import { LoadingStatusTypes } from "../appTypes"
 import { setAppAlert } from "../appStatus/appStatusSlice"
 import { AuthLoginType, AuthMeType, AuthRegisterType } from "../../api/apiTypes"
-import { AuthType } from "./authTypes"
 
 export const authLogin = createAsyncThunk("auth/authLogin", async (payload: AuthLoginType, thunkAPI) => {
   thunkAPI.dispatch(setAppAlert({ message: "Завантаження...", status: "info" }))
