@@ -41,7 +41,6 @@ const CreateAuditoryForm: React.FC<ICreateAuditoryFormProps> = ({
 
   const {
     reset,
-    watch,
     control,
     formState: { errors, isSubmitting },
     handleSubmit,
