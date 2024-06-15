@@ -21,8 +21,6 @@ import { AuditoriesPage } from "./pages/Auditories/AuditoriesPage"
 import { DistributionPage } from "./pages/Distribution/DistributionPage"
 import { ViewTimetablePage } from "./pages/ViewTimetablePage/ViewTimetablePage"
 
-// const DashboardDefault = Loadable(lazy(() => import("./pages/dashboard")))
-
 const App = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()

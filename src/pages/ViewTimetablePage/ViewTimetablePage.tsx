@@ -212,39 +212,45 @@ const ViewTimetablePage = () => {
             <Divider sx={{ my: 5 }} />
 
             <div>
-              {(selectedSchedule ? selectedSchedule : []).map((el: any) => (
-                <div key={el.date} className="view-timetable__day-box">
-                  <Typography>
-                    {el.dayName} ({el.date})
-                  </Typography>
+              {(selectedSchedule ? selectedSchedule : []).map((el: any) => {
+                const lessonsList = el.lessons.sort((a: any, b: any) =>
+                  a.lessonNumber > b.lessonNumber ? 1 : b.lessonNumber > a.lessonNumber ? -1 : 0
+                )
 
-                  {el.lessons.map((lesson: any) => {
-                    const lessonCall = settings
-                      ? // @ts-ignore
-                        settings.callSchedule[String(lesson.lessonNumber)]
-                      : { start: "", end: "" }
+                return (
+                  <div key={el.date} className="view-timetable__day-box">
+                    <Typography>
+                      {el.dayName} ({el.date})
+                    </Typography>
 
-                    return (
-                      <div className="view-timetable__lesson-box" key={lesson.lessonNumber}>
-                        <div className="view-timetable__lesson-number">{lesson.lessonNumber}</div>
-                        <div className="view-timetable__lesson-call">
-                          <p style={{ margin: 0 }}>
-                            {lessonCall.start} - {lessonCall.end}
-                          </p>
+                    {lessonsList.map((lesson: any) => {
+                      const lessonCall = settings
+                        ? // @ts-ignore
+                          settings.callSchedule[String(lesson.lessonNumber)]
+                        : { start: "", end: "" }
+
+                      return (
+                        <div className="view-timetable__lesson-box" key={lesson.lessonNumber}>
+                          <div className="view-timetable__lesson-number">{lesson.lessonNumber}</div>
+                          <div className="view-timetable__lesson-call">
+                            <p style={{ margin: 0 }}>
+                              {lessonCall.start} - {lessonCall.end}
+                            </p>
+                          </div>
+                          <div className="view-timetable__lesson-details">
+                            {lesson.name} | {lesson.group.name}
+                            <br />
+                            {lesson.auditory ? `Аудиторія: ${lesson.auditory.name}` : "Дистанційно"}
+                            <br />
+                            Викладач {getLastnameAndInitials(lesson.teacher)}
+                            <br />
+                          </div>
                         </div>
-                        <div className="view-timetable__lesson-details">
-                          {lesson.name} | {lesson.group.name}
-                          <br />
-                          {lesson.auditory ? `Аудиторія: ${lesson.auditory.name}` : "Дистанційно"}
-                          <br />
-                          Викладач {getLastnameAndInitials(lesson.teacher)}
-                          <br />
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              ))}
+                      )
+                    })}
+                  </div>
+                )
+              })}
             </div>
           </Grid>
         </Grid>
