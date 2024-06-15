@@ -41,9 +41,8 @@ const CreateAuditoryForm: React.FC<ICreateAuditoryFormProps> = ({
 
   const {
     reset,
+    watch,
     control,
-    getValues,
-    clearErrors,
     formState: { errors, isSubmitting },
     handleSubmit,
   } = useForm<IAuditoriesFields>({
@@ -58,17 +57,17 @@ const CreateAuditoryForm: React.FC<ICreateAuditoryFormProps> = ({
         if (!editingAuditory) return
         await dispatch(updateAuditory({ ...data, id: editingAuditory.id }))
         handleClose()
-        reset({ name: "", seatsNumber: 1, category: 1 })
+        reset({ name: "", seatsNumber: 1 })
       } else {
         // Якщо форму відкрито НЕ в модалці - створення викладача
         await dispatch(createAuditory(data))
-        reset({ name: "", seatsNumber: 1, category: 1 })
+        reset({ name: "", seatsNumber: 1 })
       }
     } catch (error) {
       console.log(error)
     }
   }
-  console.log(errors, getValues("category"))
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Controller
@@ -126,11 +125,11 @@ const CreateAuditoryForm: React.FC<ICreateAuditoryFormProps> = ({
       <Controller
         name="category"
         control={control}
-        rules={{ required: "Вкажіть категорію" }}
+        rules={{ required: "Виберіть корпус" }}
         render={({ field }) => {
           return (
             <Stack spacing={1} sx={{ mt: 2 }}>
-              <InputLabel htmlFor="category">Категорія*</InputLabel>
+              <InputLabel htmlFor="category">Корпус*</InputLabel>
               <TextField
                 select
                 fullWidth

@@ -75,7 +75,6 @@ const ViewTimetablePage = () => {
   React.useEffect(() => {
     if (!scheduleLessons) return
 
-    console.log(getDaysForViewSchedule(scheduleLessons))
     setSelectedSchedule(getDaysForViewSchedule(scheduleLessons))
   }, [scheduleLessons])
 

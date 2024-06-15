@@ -1,5 +1,5 @@
 // material-ui
-import { Stack, Button, MenuItem, TextField, InputLabel, OutlinedInput, FormHelperText, Tooltip } from "@mui/material"
+import { Stack, Button, MenuItem, TextField, InputLabel, OutlinedInput, FormHelperText } from "@mui/material"
 
 // project import
 import React from "react"
@@ -159,11 +159,11 @@ const CreateTeacherForm: React.FC<ICreateTeacherFormProps> = ({
         <Controller
           name="category"
           control={control}
-          rules={{ required: "Вкажіть категорію" }}
+          rules={{ required: "Виберіть кафедру" }}
           render={({ field }) => {
             return (
               <Stack spacing={1} sx={{ mt: 2 }}>
-                <InputLabel htmlFor="category">Категорія*</InputLabel>
+                <InputLabel htmlFor="category">Кафедра*</InputLabel>
                 <TextField
                   select
                   fullWidth
@@ -177,6 +177,12 @@ const CreateTeacherForm: React.FC<ICreateTeacherFormProps> = ({
                     </MenuItem>
                   ))}
                 </TextField>
+
+                {errors.category && (
+                  <FormHelperText error id="helper-text-category">
+                    {errors.category.message}
+                  </FormHelperText>
+                )}
               </Stack>
             )
           }}
@@ -187,7 +193,7 @@ const CreateTeacherForm: React.FC<ICreateTeacherFormProps> = ({
         variant="contained"
         color="primary"
         type="submit"
-        disabled={isSubmitting}
+        disabled={isSubmitting || !teachersCategories || !teachersCategories.length}
         sx={{
           textTransform: "capitalize",
           width: "100%",

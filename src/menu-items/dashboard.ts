@@ -77,7 +77,7 @@ const dashboard = {
     },
     {
       id: "timetable",
-      title: "Розклад",
+      title: "Редагування розкладу",
       type: "item",
       url: "/timetable",
       icon: icons.CalendarOutlined,
