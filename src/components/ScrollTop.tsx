@@ -18,8 +18,4 @@ const ScrollTop: React.FC<React.PropsWithChildren> = ({ children }) => {
   return children || null
 }
 
-ScrollTop.propTypes = {
-  children: PropTypes.node,
-}
-
 export default ScrollTop
