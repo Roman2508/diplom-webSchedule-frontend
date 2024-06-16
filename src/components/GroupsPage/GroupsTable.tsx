@@ -2,7 +2,6 @@ import { Link as RouterLink } from "react-router-dom"
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
 import React, { Dispatch, SetStateAction, useState } from "react"
 
-// material-ui
 import {
   Box,
   Link,
@@ -16,10 +15,7 @@ import {
   SortDirection,
   TableContainer,
 } from "@mui/material"
-import { useAppDispatch } from "../../store/store"
 import { GroupCategoriesType, GroupsShortType } from "../../store/groups/groupsTypes"
-
-// ==============================|| ORDER TABLE - HEADER CELL ||============================== //
 
 interface IHeadCells {
   id: string
@@ -90,13 +86,12 @@ interface IGroupsTableProps {
   setActiveGroupCategory: Dispatch<SetStateAction<GroupCategoriesType | null>>
 }
 
-const GroupsTable: React.FC<IGroupsTableProps> = ({ groups, onDeleteEntity, setActiveGroupCategory }) => {
-  const dispatch = useAppDispatch()
-
+const GroupsTable: React.FC<IGroupsTableProps> = ({ groups, onDeleteEntity }) => {
   const [order] = useState("asc")
   const [orderBy] = useState("trackingNo")
   const [selected] = useState([])
 
+  // @ts-ignore
   const isSelected = (id: number) => selected.indexOf(id) !== -1
 
   return (

@@ -1,26 +1,14 @@
-import {
-  Grid,
-  Stack,
-  Button,
-  MenuItem,
-  TextField,
-  InputLabel,
-  Autocomplete,
-  OutlinedInput,
-  FormHelperText,
-} from "@mui/material"
 import React, { Dispatch, SetStateAction } from "react"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
+import { Stack, Button, MenuItem, TextField, InputLabel, OutlinedInput, FormHelperText } from "@mui/material"
 
-// project import
-import { useAppDispatch } from "../../store/store"
-import { GroupLessonsType } from "../../store/groups/groupsTypes"
-import { autocompleteLessonsData } from "./autocompleteLessonsData"
 import {
   createGroupLoadLesson,
   deleteGroupLoadLesson,
   updateGroupLoadLesson,
 } from "../../store/groups/groupsAsyncActions"
+import { useAppDispatch } from "../../store/store"
+import { GroupLessonsType } from "../../store/groups/groupsTypes"
 
 interface ICreateLessonFormProps {
   selectedGroupId?: number

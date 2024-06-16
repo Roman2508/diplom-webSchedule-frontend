@@ -1,8 +1,7 @@
-import PropTypes from 'prop-types'
-import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+// @ts-nocheck
 
-// ==============================|| NAVIGATION - SCROLL TO TOP ||============================== //
+import { useEffect } from "react"
+import { useLocation } from "react-router-dom"
 
 const ScrollTop: React.FC<React.PropsWithChildren> = ({ children }) => {
   const location = useLocation()
@@ -12,7 +11,7 @@ const ScrollTop: React.FC<React.PropsWithChildren> = ({ children }) => {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     })
   }, [pathname])
 

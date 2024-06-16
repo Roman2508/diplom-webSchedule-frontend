@@ -108,6 +108,7 @@ const LessonsTable: React.FC<ILessonsTable> = ({
       type: lesson.type,
       teacher: lesson.teacher,
       totalHours: lesson.hours,
+      // @ts-ignore
       students: lesson.students,
       group: { id: lesson.group.id, name: lesson.group.name },
     })

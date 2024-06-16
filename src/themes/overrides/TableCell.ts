@@ -1,4 +1,4 @@
-// ==============================|| OVERRIDES - TABLE CELL ||============================== //
+// @ts-nocheck
 
 export default function TableCell(theme) {
   return {

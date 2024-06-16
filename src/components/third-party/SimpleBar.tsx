@@ -1,40 +1,38 @@
-import PropTypes from 'prop-types'
-
 // material-ui
-import { SxProps, alpha, styled } from '@mui/material/styles'
-import { Box } from '@mui/material'
+import { SxProps, alpha, styled } from "@mui/material/styles"
+import { Box } from "@mui/material"
 
 // third-party
-import SimpleBar from 'simplebar-react'
-import { BrowserView, MobileView } from 'react-device-detect'
-import React, { CSSProperties } from 'react'
+import SimpleBar from "simplebar-react"
+import { BrowserView, MobileView } from "react-device-detect"
+import React from "react"
 
 // root style
 const RootStyle = styled(BrowserView)({
   flexGrow: 1,
-  height: '100%',
-  overflow: 'hidden',
+  height: "100%",
+  overflow: "hidden",
 })
 
 // scroll bar wrapper
 const SimpleBarStyle = styled(SimpleBar)(({ theme }) => ({
-  maxHeight: '100%',
-  '& .simplebar-scrollbar': {
-    '&:before': {
+  maxHeight: "100%",
+  "& .simplebar-scrollbar": {
+    "&:before": {
       backgroundColor: alpha(theme.palette.grey[500], 0.48),
     },
-    '&.simplebar-visible:before': {
+    "&.simplebar-visible:before": {
       opacity: 1,
     },
   },
-  '& .simplebar-track.simplebar-vertical': {
+  "& .simplebar-track.simplebar-vertical": {
     width: 10,
   },
-  '& .simplebar-track.simplebar-horizontal .simplebar-scrollbar': {
+  "& .simplebar-track.simplebar-horizontal .simplebar-scrollbar": {
     height: 6,
   },
-  '& .simplebar-mask': {
-    zIndex: 'inherit',
+  "& .simplebar-mask": {
+    zIndex: "inherit",
   },
 }))
 
@@ -53,7 +51,7 @@ const SimpleBarScroll: React.FC<React.PropsWithChildren<ISimpleBarScrollProps>> 
         </SimpleBarStyle>
       </RootStyle>
       <MobileView>
-        <Box sx={{ overflowX: 'auto', ...sx }} {...other}>
+        <Box sx={{ overflowX: "auto", ...sx }} {...other}>
           {children}
         </Box>
       </MobileView>

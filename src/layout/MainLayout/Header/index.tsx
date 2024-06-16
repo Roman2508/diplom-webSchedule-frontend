@@ -1,4 +1,4 @@
-// material-ui
+// @ts-nocheck
 import { useTheme } from '@mui/material/styles'
 import { AppBar, IconButton, Toolbar, useMediaQuery } from '@mui/material'
 

@@ -35,7 +35,6 @@ const SelectTeacherModal: React.FC<ISelectTeacherModalProps> = ({
   setOpen,
   selectedLessonId,
   replacementTeacherId,
-  setReplacementTeacherId,
   setLessonActionsModalVisible,
 }) => {
   const dispatch = useAppDispatch()
@@ -58,11 +57,6 @@ const SelectTeacherModal: React.FC<ISelectTeacherModalProps> = ({
     const category = teachersCategories.find((el) => el.id === id)
     if (!category) return
     setTeachersList(category.teachers)
-  }
-
-  const onConfirmSelection = () => {
-    setReplacementTeacherId(preConfirmationTeacherId)
-    handleClose()
   }
 
   const checkAuditoryOverlay = () => {

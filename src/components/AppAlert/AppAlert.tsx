@@ -1,6 +1,6 @@
 import React from "react"
 import { useSelector } from "react-redux"
-import { Theme, ToastContainer, toast } from "react-toastify"
+import { ToastContainer, toast } from "react-toastify"
 
 import { useAppDispatch } from "../../store/store"
 import { clearAppAlert, selectAppStatus } from "../../store/appStatus/appStatusSlice"

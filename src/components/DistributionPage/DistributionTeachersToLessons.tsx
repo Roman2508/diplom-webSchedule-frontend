@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react"
 import { CloseSquareOutlined, LeftSquareOutlined } from "@ant-design/icons"
-import { Grid, Stack, Tooltip, TextField, Typography, IconButton, InputLabel } from "@mui/material"
+import { Grid, Stack, Tooltip, TextField, Typography, IconButton } from "@mui/material"
 
 import EmptyCard from "../EmptyCard/EmptyCard"
 import MainCard from "../../components/MainCard"
@@ -92,7 +92,7 @@ const DistributionTeachersToLessons: React.FC<IDistributionTeachersToLessonsProp
                   <Typography sx={{ mt: "8px !important", mr: "8px !important" }}>Годин</Typography>
 
                   <TextField
-                    name={lesson.typeEn}
+                    name={lesson.type}
                     size="small"
                     placeholder=""
                     value={lesson.hours}

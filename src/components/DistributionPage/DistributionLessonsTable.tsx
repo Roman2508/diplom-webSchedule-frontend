@@ -1,10 +1,10 @@
-import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material"
 import React, { Dispatch, SetStateAction } from "react"
-import { groupLessonsByFields } from "../../utils/groupLessonsByFields"
-import { GroupLessonsType } from "../../store/groups/groupsTypes"
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material"
+
 import EmptyCard from "../EmptyCard/EmptyCard"
 import { LoadingStatusTypes } from "../../store/appTypes"
-import LoadingSpinner from "../LoadingSpinner/LoadingSpinner"
+import { GroupLessonsType } from "../../store/groups/groupsTypes"
+import { groupLessonsByFields } from "../../utils/groupLessonsByFields"
 
 interface IDistributionLessonsTableProps {
   groupLoad: GroupLessonsType[] | null

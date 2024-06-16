@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 
 // material-ui
 import { useTheme } from "@mui/material/styles"
@@ -54,7 +54,7 @@ const MainLayout = () => {
   // get settings
   useEffect(() => {
     if (settings) return
-    dispatch(getSettings(1))
+    dispatch(getSettings())
   }, [])
 
   return (

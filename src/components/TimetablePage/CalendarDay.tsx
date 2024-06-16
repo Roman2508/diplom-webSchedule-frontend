@@ -181,9 +181,7 @@ const CalendarDay: React.FC<ICalendarDayProps> = ({
 
                         <p>
                           {`(${l.type}) 
-                          ${l.subgroupNumber ? ` підгр.${l.subgroupNumber}` : ""} 
-                          ${l.stream ? ` Потік ${l.stream.name} ` : ""}`}
-                          {l.specialization ? `${l.specialization} спец.` : ""}
+                          ${l.subgroupNumber ? ` підгр.${l.subgroupNumber}` : ""} `}
                         </p>
 
                         <p>{teacherName}</p>
@@ -205,8 +203,7 @@ const CalendarDay: React.FC<ICalendarDayProps> = ({
                     <p>
                       {`(${overlay.type}) 
                       ${overlay.subgroupNumber ? ` підгр.${overlay.subgroupNumber}` : ""} 
-                      ${overlay.stream ? ` Потік ${overlay.stream.name} ` : ""}`}
-                      {overlay.specialization ? `${overlay.specialization} спец.` : ""}
+                      `}
                     </p>
 
                     <p>{overlayTeacherName}</p>

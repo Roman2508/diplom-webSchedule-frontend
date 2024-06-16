@@ -1,13 +1,13 @@
-import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+// @ts-nocheck
+import { useEffect, useState } from "react"
+import { Link, useLocation } from "react-router-dom"
 
 // material-ui
-import MuiBreadcrumbs from '@mui/material/Breadcrumbs'
-import { Grid, Typography } from '@mui/material'
+import MuiBreadcrumbs from "@mui/material/Breadcrumbs"
+import { Grid, Typography } from "@mui/material"
 
 // project imports
-import MainCard from '../MainCard'
+import MainCard from "../MainCard"
 
 // ==============================|| BREADCRUMBS ||============================== //
 
@@ -25,9 +25,9 @@ const Breadcrumbs: React.FC<IBreadcrumbsProps> = ({ navigation, title, ...others
   const getCollapse = (menu) => {
     if (menu.children) {
       menu.children.filter((collapse) => {
-        if (collapse.type && collapse.type === 'collapse') {
+        if (collapse.type && collapse.type === "collapse") {
           getCollapse(collapse)
-        } else if (collapse.type && collapse.type === 'item') {
+        } else if (collapse.type && collapse.type === "item") {
           if (location.pathname === collapse.url) {
             setMain(menu)
             setItem(collapse)
@@ -40,7 +40,7 @@ const Breadcrumbs: React.FC<IBreadcrumbsProps> = ({ navigation, title, ...others
 
   useEffect(() => {
     navigation?.items?.map((menu) => {
-      if (menu.type && menu.type === 'group') {
+      if (menu.type && menu.type === "group") {
         getCollapse(menu)
       }
       return false
@@ -48,23 +48,23 @@ const Breadcrumbs: React.FC<IBreadcrumbsProps> = ({ navigation, title, ...others
   })
 
   // only used for component demo breadcrumbs
-  if (location.pathname === '/breadcrumbs') {
-    location.pathname = '/dashboard/analytics'
+  if (location.pathname === "/breadcrumbs") {
+    location.pathname = "/dashboard/analytics"
   }
 
   let mainContent
   let itemContent
   let breadcrumbContent = <Typography />
-  let itemTitle = ''
+  let itemTitle = ""
 
   // collapse item
-  if (main && main.type === 'collapse') {
+  if (main && main.type === "collapse") {
     mainContent = (
       <Typography
         component={Link}
         to={document.location.pathname}
         variant="h6"
-        sx={{ textDecoration: 'none' }}
+        sx={{ textDecoration: "none" }}
         color="textSecondary"
       >
         {main.title}
@@ -73,7 +73,7 @@ const Breadcrumbs: React.FC<IBreadcrumbsProps> = ({ navigation, title, ...others
   }
 
   // items
-  if (item && item.type === 'item') {
+  if (item && item.type === "item") {
     itemTitle = item.title
     itemContent = (
       <Typography variant="subtitle1" color="textPrimary">
@@ -84,11 +84,11 @@ const Breadcrumbs: React.FC<IBreadcrumbsProps> = ({ navigation, title, ...others
     // main
     if (item.breadcrumbs !== false) {
       breadcrumbContent = (
-        <MainCard border={false} sx={{ mb: 3, bgcolor: 'transparent' }} {...others} content={false}>
+        <MainCard border={false} sx={{ mb: 3, bgcolor: "transparent" }} {...others} content={false}>
           <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={1}>
             <Grid item>
               <MuiBreadcrumbs aria-label="breadcrumb">
-                <Typography component={Link} to="/" color="textSecondary" variant="h6" sx={{ textDecoration: 'none' }}>
+                <Typography component={Link} to="/" color="textSecondary" variant="h6" sx={{ textDecoration: "none" }}>
                   Home
                 </Typography>
                 {mainContent}

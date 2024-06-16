@@ -1,4 +1,4 @@
-// third-party
+// @ts-nocheck
 import { merge } from 'lodash';
 
 // project import

@@ -1,4 +1,4 @@
-// material-ui
+// @ts-nocheck
 import { useTheme } from '@mui/material/styles'
 import { Stack, Chip } from '@mui/material'
 

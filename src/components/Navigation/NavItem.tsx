@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { forwardRef, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'

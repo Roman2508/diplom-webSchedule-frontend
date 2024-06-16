@@ -1,24 +1,25 @@
-import { useState } from 'react';
+import { useState } from "react"
+import { useTheme } from "@mui/material/styles"
+import { List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
 
-// material-ui
-import { useTheme } from '@mui/material/styles';
-import { List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-
-// assets
-import { CommentOutlined, LockOutlined, QuestionCircleOutlined, UserOutlined, UnorderedListOutlined } from '@ant-design/icons';
-
-// ==============================|| HEADER PROFILE - SETTING TAB ||============================== //
+import {
+  CommentOutlined,
+  LockOutlined,
+  QuestionCircleOutlined,
+  UserOutlined,
+  UnorderedListOutlined,
+} from "@ant-design/icons"
 
 const SettingTab = () => {
-  const theme = useTheme();
+  const theme = useTheme()
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const handleListItemClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
-    setSelectedIndex(index);
-  };
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const handleListItemClick = (_: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
+    setSelectedIndex(index)
+  }
 
   return (
-    <List component="nav" sx={{ p: 0, '& .MuiListItemIcon-root': { minWidth: 32, color: theme.palette.grey[500] } }}>
+    <List component="nav" sx={{ p: 0, "& .MuiListItemIcon-root": { minWidth: 32, color: theme.palette.grey[500] } }}>
       <ListItemButton selected={selectedIndex === 0} onClick={(event) => handleListItemClick(event, 0)}>
         <ListItemIcon>
           <QuestionCircleOutlined />
@@ -50,7 +51,7 @@ const SettingTab = () => {
         <ListItemText primary="History" />
       </ListItemButton>
     </List>
-  );
-};
+  )
+}
 
-export default SettingTab;
+export default SettingTab

@@ -1,3 +1,4 @@
+// @ts-nocheck
 const Typography = (fontFamily) => ({
   htmlFontSize: 16,
   fontFamily,

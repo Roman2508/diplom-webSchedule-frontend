@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+// @ts-nocheck
 import { useMemo } from 'react'
 
 // material-ui

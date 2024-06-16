@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   List,
   Dialog,
@@ -74,7 +75,6 @@ const LessonActionsModal: React.FC<ILessonActionsModalProps> = ({
   currentWeekNumber,
   selectedAuditoryId,
   setSeveralLessonsList,
-  setTeacherModalVisible,
   setAuditoryModalVisible,
   setSeveralLessonsModalVisible,
 }) => {

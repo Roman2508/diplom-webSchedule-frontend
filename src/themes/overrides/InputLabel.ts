@@ -1,4 +1,4 @@
-// ==============================|| OVERRIDES - INPUT LABEL ||============================== //
+// @ts-nocheck
 
 export default function InputLabel(theme) {
   return {

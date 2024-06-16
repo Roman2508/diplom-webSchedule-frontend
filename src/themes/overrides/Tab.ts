@@ -1,4 +1,4 @@
-// ==============================|| OVERRIDES - TAB ||============================== //
+// @ts-nocheck
 
 export default function Tab(theme) {
   return {

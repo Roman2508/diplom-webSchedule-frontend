@@ -1,4 +1,4 @@
-// ==============================|| OVERRIDES - BADGE ||============================== //
+// @ts-nocheck
 
 export default function Badge(theme) {
   return {

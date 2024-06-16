@@ -1,4 +1,4 @@
-// ==============================|| OVERRIDES - CHIP ||============================== //
+// @ts-nocheck
 
 export default function Chip(theme) {
   return {

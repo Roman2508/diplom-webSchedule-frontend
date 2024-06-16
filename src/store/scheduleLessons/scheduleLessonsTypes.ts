@@ -1,6 +1,5 @@
 import { LoadingStatusTypes } from "../appTypes"
 import { GroupLessonsType } from "../groups/groupsTypes"
-import { StreamsType } from "../streams/streamsTypes"
 import { TeachersType } from "../teachers/teachersTypes"
 import { AuditoriesTypes } from "../auditories/auditoriesTypes"
 
@@ -35,7 +34,6 @@ export type ScheduleLessonType = {
   group: { id: number; name: string }
   teacher: TeachersType
   auditory: AuditoriesTypes | null
-  stream: StreamsType
   subgroupNumber: number | null
   specialization: string | null
 }

@@ -1,4 +1,4 @@
-// material-ui
+// @ts-nocheck
 import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 

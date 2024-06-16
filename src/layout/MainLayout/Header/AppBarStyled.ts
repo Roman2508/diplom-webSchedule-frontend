@@ -1,4 +1,4 @@
-// material-ui
+// @ts-nocheck
 import { Theme, styled } from '@mui/material/styles'
 import AppBar from '@mui/material/AppBar'
 

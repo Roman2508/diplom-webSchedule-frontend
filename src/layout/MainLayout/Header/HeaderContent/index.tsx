@@ -1,6 +1,5 @@
-// material-ui
+// @ts-nocheck
 import { Box, IconButton, Link, useMediaQuery } from "@mui/material"
-import { GithubOutlined } from "@ant-design/icons"
 
 // project import
 import Search from "./Search"

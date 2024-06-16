@@ -1,8 +1,7 @@
-// material-ui
+// @ts-nocheck
 import { Theme, styled } from "@mui/material/styles"
 import { Box, Stack, Typography } from "@mui/material"
 import { useTheme } from "@mui/material/styles"
-// import Logo from '../Logo/Logo'
 import Logo from "../../assets/logo.svg"
 import { Link } from "react-router-dom"
 

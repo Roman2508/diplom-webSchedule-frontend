@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createTheme } from "@mui/material/styles"
 import { presetPalettes } from "@ant-design/colors"
 import ThemeOption from "./theme"

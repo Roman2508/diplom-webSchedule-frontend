@@ -7,7 +7,7 @@ export const groupAndSortAuditoryLessons = (selectedLesson: ScheduleLessonType[]
   const groupedLessons: Record<string, ScheduleLessonType[]> = {}
 
   selectedLesson.forEach((subject) => {
-    const subjectKey = subject.group.id + subject.name + subject.type + subject.subgroupNumber + subject.stream?.id
+    const subjectKey = subject.group.id + subject.name + subject.type + subject.subgroupNumber
 
     if (!groupedLessons[subjectKey]) {
       groupedLessons[subjectKey] = []

@@ -42,7 +42,8 @@ import { TeachersCategoryType, TeachersType } from "../store/teachers/teachersTy
 import { AuditoriesTypes, AuditoryCategoriesTypes } from "../store/auditories/auditoriesTypes"
 import { GroupCategoriesType, GroupLessonsType, GroupsType } from "../store/groups/groupsTypes"
 
-const instanse = axios.create({ baseURL: "http://localhost:7777/" })
+// const instanse = axios.create({ baseURL: "http://localhost:7777/" })
+const instanse = axios.create({ baseURL: "https://webschedule.onrender.com" })
 
 instanse.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const token = window.localStorage.getItem("webSchedule-token")

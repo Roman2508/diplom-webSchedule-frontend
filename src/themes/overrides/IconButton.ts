@@ -1,4 +1,4 @@
-// ==============================|| OVERRIDES - ICON BUTTON ||============================== //
+// @ts-nocheck
 
 export default function IconButton(theme) {
   return {

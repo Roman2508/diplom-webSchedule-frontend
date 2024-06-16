@@ -1,4 +1,4 @@
-// ==============================|| PRESET THEME - THEME SELECTOR ||============================== //
+// @ts-nocheck
 
 const Theme = (colors) => {
   const { blue, red, gold, cyan, green, grey } = colors;

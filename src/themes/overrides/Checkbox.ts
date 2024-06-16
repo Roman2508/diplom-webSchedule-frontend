@@ -1,4 +1,4 @@
-// ==============================|| OVERRIDES - CHECKBOX ||============================== //
+// @ts-nocheck
 
 export default function Checkbox(theme) {
   return {

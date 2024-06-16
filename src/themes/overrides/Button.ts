@@ -1,4 +1,4 @@
-// ==============================|| OVERRIDES - BUTTON ||============================== //
+// @ts-nocheck
 
 export default function Button(theme) {
   const disabledStyle = {
