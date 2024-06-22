@@ -6,10 +6,12 @@ import { Grid, Divider, Tooltip, Typography, IconButton } from "@mui/material"
 import MainCard from "../../components/MainCard"
 import { useAppDispatch } from "../../store/store"
 import { LoadingStatusTypes } from "../../store/appTypes"
+import { authSelector } from "../../store/auth/authSlice"
 import EmptyCard from "../../components/EmptyCard/EmptyCard"
-import { GroupLessonsType } from "../../store/groups/groupsTypes"
 import { groupsSelector } from "../../store/groups/groupsSlice"
+import { GroupLessonsType } from "../../store/groups/groupsTypes"
 import { teachersSelector } from "../../store/teachers/teachersSlice"
+import { TeachersCategoryType } from "../../store/teachers/teachersTypes"
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner"
 import { getTeachersCategories } from "../../store/teachers/teachersAsyncActions"
 import { getGroup, getGroupCategories } from "../../store/groups/groupsAsyncActions"
@@ -21,6 +23,7 @@ import DistributionTeachersToLessons from "../../components/DistributionPage/Dis
 const DistributionPage = () => {
   const dispatch = useAppDispatch()
 
+  const { auth } = useSelector(authSelector)
   const { teachersCategories, loadingStatus } = useSelector(teachersSelector)
   const { groupCategories, group, loadingStatus: groupsLoadingStatus } = useSelector(groupsSelector)
 
@@ -28,6 +31,7 @@ const DistributionPage = () => {
   const [selectGroupModalVisible, setSelectGroupModalVisible] = React.useState(false)
   const [selectedTeacherId, setSelectedTeacherId] = React.useState<number | null>(null)
   const [selectedLesson, setSelectedLesson] = React.useState<null | GroupLessonsType[]>(null)
+  const [availableTeachersCategories, setAvailableTeachersCategories] = React.useState<TeachersCategoryType[]>([])
 
   React.useEffect(() => {
     dispatch(getTeachersCategories())
@@ -42,6 +46,17 @@ const DistributionPage = () => {
       dispatch(getGroup(String(selectedGroupId)))
     }
   }, [selectedGroupId])
+
+  React.useEffect(() => {
+    if (!teachersCategories || !auth) return
+    if (auth.access === "admin" || auth.access === "super_admin") {
+      setAvailableTeachersCategories(teachersCategories)
+    } else {
+      const categories = teachersCategories.filter((el) => el.id === auth.department?.id)
+      console.log(categories, auth)
+      setAvailableTeachersCategories(categories)
+    }
+  }, [teachersCategories, auth])
 
   return (
     <>
@@ -109,6 +124,7 @@ const DistributionPage = () => {
           <Grid item xs={4} sx={{ mx: 2 }}>
             {/* DISTRIBUTION LESSONS */}
             <DistributionTeachersToLessons
+              auth={auth}
               selectedLesson={selectedLesson}
               setSelectedLesson={setSelectedLesson}
               selectedTeacherId={selectedTeacherId}
@@ -128,7 +144,7 @@ const DistributionPage = () => {
             {!teachersCategories?.length && loadingStatus !== LoadingStatusTypes.LOADING && <EmptyCard />}
             {teachersCategories?.length && (
               <AccordionItemsList
-                items={teachersCategories}
+                items={availableTeachersCategories}
                 selectedItemId={selectedTeacherId}
                 onSelectItem={setSelectedTeacherId}
               />

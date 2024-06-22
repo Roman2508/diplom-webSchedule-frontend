@@ -14,10 +14,12 @@ import { CreateLessonForm } from "../../components/LoadPage/CreateLessonForm"
 import { GroupLessonsType, GroupsShortType } from "../../store/groups/groupsTypes"
 import { getTeachersCategories } from "../../store/teachers/teachersAsyncActions"
 import { getGroup, getGroupCategories } from "../../store/groups/groupsAsyncActions"
+import { authSelector } from "../../store/auth/authSlice"
 
 const LoadPage = () => {
   const dispatch = useAppDispatch()
 
+  const { auth } = useSelector(authSelector)
   const { groupCategories, group, loadingStatus } = useSelector(groupsSelector)
 
   const [openCategoryId, setOpenCategoryId] = React.useState<number | null>(null)
@@ -118,13 +120,19 @@ const LoadPage = () => {
 
           <Grid item xs={3} sx={{ mx: 2 }}>
             <MainCard sx={{ px: 2, "& .MuiCardContent-root": { px: 1 } }}>
-              <Typography sx={{ mb: 2, textAlign: "center" }}>ДОДАТИ НАВАНТАЖЕННЯ</Typography>
+              <Typography sx={{ mb: 2, textAlign: "center" }}>
+                {auth?.access !== "deans_office"
+                  ? "ДОДАТИ НАВАНТАЖЕННЯ"
+                  : "ДЛЯ ВАС НЕ ДОСТУПНА ФУНКЦІЯ РОЗПОДІЛУ НАВЧАЛЬНОГО НАВАНТАЖЕННЯ"}
+              </Typography>
 
-              <CreateLessonForm
-                editableLesson={editableLesson}
-                selectedGroupId={selectedGroup?.id}
-                setEditableLesson={setEditableLesson}
-              />
+              {auth?.access !== "deans_office" && (
+                <CreateLessonForm
+                  editableLesson={editableLesson}
+                  selectedGroupId={selectedGroup?.id}
+                  setEditableLesson={setEditableLesson}
+                />
+              )}
             </MainCard>
           </Grid>
 

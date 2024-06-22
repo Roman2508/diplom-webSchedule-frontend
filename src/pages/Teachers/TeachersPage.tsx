@@ -20,12 +20,17 @@ import UpdateTeacherModal from "../../components/TeachersPage/UpdateTeacherModal
 import { AccordionItemsList } from "../../components/AccordionItemsList/AccordionItemsList"
 import CreateTeachersCategoryForm from "../../components/TeachersPage/CreateTeachersCategoryForm"
 import UpdateTeachersCategoryForm from "../../components/TeachersPage/UpdateTeachersCategoryForm"
+import { useNavigate } from "react-router-dom"
+import { authSelector } from "../../store/auth/authSlice"
 
 // ==============================|| PLANS ||============================== //
 
 const TeachersPage = () => {
   const dispatch = useAppDispatch()
 
+  const navigate = useNavigate()
+
+  const { auth } = useSelector(authSelector)
   const { teachersCategories, loadingStatus } = useSelector(teachersSelector)
 
   const [isUpdateTeacherModalOpen, setIsUpdateTeacherModalOpen] = React.useState(false)
@@ -39,6 +44,14 @@ const TeachersPage = () => {
   React.useEffect(() => {
     dispatch(getTeachersCategories())
   }, [])
+
+  React.useEffect(() => {
+    if (!auth) return
+
+    if (auth.access === "deans_office" || auth.access === "department_chair") {
+      navigate("/load")
+    }
+  }, [auth])
 
   const onDeleteTeacher = (id: number) => {
     try {

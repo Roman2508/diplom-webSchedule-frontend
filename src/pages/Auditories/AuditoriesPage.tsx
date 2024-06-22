@@ -19,12 +19,17 @@ import UpdateAuditoryModal from "../../components/AuditoriesPage/UpdateAuditoryM
 import { AccordionItemsList } from "../../components/AccordionItemsList/AccordionItemsList"
 import CreateAuditoryCategoryForm from "../../components/AuditoriesPage/CreateAuditoryCategoryForm"
 import UpdateAuditoryCategoryForm from "../../components/AuditoriesPage/UpdateAuditoryCategoryModal"
+import { authSelector } from "../../store/auth/authSlice"
+import { useNavigate } from "react-router-dom"
 
 // ==============================|| AUDITORIES ||============================== //
 
 const AuditoriesPage = () => {
   const dispatch = useAppDispatch()
 
+  const navigate = useNavigate()
+
+  const { auth } = useSelector(authSelector)
   const { auditoriCategories, loadingStatus } = useSelector(auditoriesSelector)
 
   const [isAuditoryModalOpen, setIsAuditoryModalOpen] = React.useState(false)
@@ -34,6 +39,14 @@ const AuditoriesPage = () => {
     id: number
     name: string
   } | null>(null)
+
+  React.useEffect(() => {
+    if (!auth) return
+
+    if (auth.access === "deans_office" || auth.access === "department_chair") {
+      navigate("/load")
+    }
+  }, [auth])
 
   React.useEffect(() => {
     if (auditoriCategories) return

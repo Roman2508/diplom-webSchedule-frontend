@@ -26,6 +26,7 @@ import { useAppDispatch } from "../../store/store"
 import { LoadingStatusTypes } from "../../store/appTypes"
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner"
 import { clearGroupData, groupsSelector } from "../../store/groups/groupsSlice"
+import { authSelector } from "../../store/auth/authSlice"
 
 export interface IGroupFilelds {
   name: string
@@ -42,6 +43,7 @@ const FullGroupPage = () => {
 
   const dispatch = useAppDispatch()
 
+  const { auth } = useSelector(authSelector)
   const { group, groupCategories, loadingStatus } = useSelector(groupsSelector)
 
   const {
@@ -83,6 +85,14 @@ const FullGroupPage = () => {
       navigate("/groups")
     }
   }
+
+  React.useEffect(() => {
+    if (!auth) return
+
+    if (auth.access === "deans_office" || auth.access === "department_chair") {
+      navigate("/load")
+    }
+  }, [auth])
 
   React.useEffect(() => {
     if (params.id) {

@@ -15,6 +15,7 @@ import {
 } from "@mui/material"
 import React from "react"
 import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 import { MuiColorInput } from "mui-color-input"
 
 import MainCard from "../../components/MainCard"
@@ -26,6 +27,7 @@ import { CustomDatePicker } from "../../components/CustomDatePicker"
 import { settingsSelector } from "../../store/settings/settingsSlice"
 import { deleteUser, getUsers } from "../../store/auth/authAsyncActions"
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner"
+import { getTeachersCategories } from "../../store/teachers/teachersAsyncActions"
 import { updateCallSchedule, updateColors, updateSemesterTerms } from "../../store/settings/settingsAsyncActions"
 
 const lessons = ["1", "2", "3", "4", "5", "6", "7"] as const
@@ -58,8 +60,10 @@ const callScheduleInitialState = {
 const SettingsPage = () => {
   const dispatch = useAppDispatch()
 
+  const navigate = useNavigate()
+
   const { settings } = useSelector(settingsSelector)
-  const { users } = useSelector(authSelector)
+  const { users, auth } = useSelector(authSelector)
 
   const [activeTab, setActiveTab] = React.useState(0)
   const [isFetching, setIsFetching] = React.useState(false)
@@ -148,6 +152,14 @@ const SettingsPage = () => {
   }
 
   React.useEffect(() => {
+    if (!auth) return
+
+    if (auth.access === "deans_office" || auth.access === "department_chair") {
+      navigate("/load")
+    }
+  }, [auth])
+
+  React.useEffect(() => {
     if (!settings) return
     setColors((prev) => {
       return {
@@ -171,6 +183,7 @@ const SettingsPage = () => {
 
   React.useEffect(() => {
     dispatch(getUsers())
+    dispatch(getTeachersCategories())
   }, [])
 
   if (!settings) return <LoadingSpinner />
@@ -337,72 +350,73 @@ const SettingsPage = () => {
                 </Button>
               </div>
             </MainCard>
+            {auth?.access === "super_admin" && (
+              <MainCard sx={{ mt: 2, "& .MuiCardContent-root": { px: 3 } }}>
+                <Typography variant="h5" sx={{ textAlign: "center", mb: 2 }}>
+                  Користувачі
+                </Typography>
 
-            <MainCard sx={{ mt: 2, "& .MuiCardContent-root": { px: 3 } }}>
-              <Typography variant="h5" sx={{ textAlign: "center", mb: 2 }}>
-                Користувачі
-              </Typography>
+                <Box sx={{ borderBottom: 1, borderColor: "divider", display: "flex", justifyContent: "center" }}>
+                  <Tabs value={activeTab} onChange={handleChangeTab} aria-label="basic tabs example">
+                    <Tab label="Створити" />
+                    <Tab label="Оновити" />
+                    <Tab label="Видалити" />
+                  </Tabs>
+                </Box>
+                {activeTab === 0 && <AuthRegister editedUser={null} />}
 
-              <Box sx={{ borderBottom: 1, borderColor: "divider", display: "flex", justifyContent: "center" }}>
-                <Tabs value={activeTab} onChange={handleChangeTab} aria-label="basic tabs example">
-                  <Tab label="Створити" />
-                  <Tab label="Оновити" />
-                  <Tab label="Видалити" />
-                </Tabs>
-              </Box>
-              {activeTab === 0 && <AuthRegister editedUser={null} />}
+                {activeTab === 1 && (
+                  <div>
+                    <FormControl fullWidth sx={{ my: 3 }}>
+                      <InputLabel id="demo-simple-select-label">Користувачі</InputLabel>
+                      <Select
+                        label="Користувачі"
+                        onChange={handleChangeEditedUser}
+                        value={editedUser ? String(editedUser.id) : ""}
+                      >
+                        {users.map((el) => (
+                          <MenuItem value={el.id}>{el.fullName}</MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
 
-              {activeTab === 1 && (
-                <div>
-                  <FormControl fullWidth sx={{ my: 3 }}>
-                    <InputLabel id="demo-simple-select-label">Користувачі</InputLabel>
-                    <Select
-                      label="Користувачі"
-                      onChange={handleChangeEditedUser}
-                      value={editedUser ? String(editedUser.id) : ""}
+                    <Divider />
+
+                    <AuthRegister editedUser={editedUser} />
+                  </div>
+                )}
+
+                {activeTab === 2 && (
+                  <div>
+                    <FormControl fullWidth sx={{ my: 3 }}>
+                      <InputLabel id="demo-simple-select-label">Користувачі</InputLabel>
+                      <Select
+                        label="Користувачі"
+                        onChange={handleChangeEditedUser}
+                        value={editedUser ? String(editedUser.id) : ""}
+                      >
+                        {users.map((el) => (
+                          <MenuItem value={el.id}>{el.fullName}</MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+
+                    <Divider />
+
+                    <Button
+                      type="submit"
+                      color="error"
+                      variant="outlined"
+                      disabled={isFetching || !editedUser}
+                      onClick={onDeleteUser}
+                      sx={{ textTransform: "capitalize", width: "100%", p: "7.44px 15px", mt: 2 }}
                     >
-                      {users.map((el) => (
-                        <MenuItem value={el.id}>{el.fullName}</MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-
-                  <Divider />
-
-                  <AuthRegister editedUser={editedUser} />
-                </div>
-              )}
-
-              {activeTab === 2 && (
-                <div>
-                  <FormControl fullWidth sx={{ my: 3 }}>
-                    <InputLabel id="demo-simple-select-label">Користувачі</InputLabel>
-                    <Select
-                      label="Користувачі"
-                      onChange={handleChangeEditedUser}
-                      value={editedUser ? String(editedUser.id) : ""}
-                    >
-                      {users.map((el) => (
-                        <MenuItem value={el.id}>{el.fullName}</MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-
-                  <Divider />
-
-                  <Button
-                    type="submit"
-                    color="error"
-                    variant="outlined"
-                    disabled={isFetching || !editedUser}
-                    onClick={onDeleteUser}
-                    sx={{ textTransform: "capitalize", width: "100%", p: "7.44px 15px", mt: 2 }}
-                  >
-                    {!isFetching ? "Видалити" : <CircularProgress size={20} color="secondary" />}
-                  </Button>
-                </div>
-              )}
-            </MainCard>
+                      {!isFetching ? "Видалити" : <CircularProgress size={20} color="secondary" />}
+                    </Button>
+                  </div>
+                )}
+              </MainCard>
+            )}
           </Grid>
         </Grid>
       </Grid>

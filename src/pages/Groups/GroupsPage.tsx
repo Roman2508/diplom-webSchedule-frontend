@@ -7,6 +7,7 @@ import { Grid, List, Typography, ListItemText, ListItemButton, IconButton, Toolt
 import MainCard from "../../components/MainCard"
 import { useAppDispatch } from "../../store/store"
 import { LoadingStatusTypes } from "../../store/appTypes"
+import { authSelector } from "../../store/auth/authSlice"
 import EmptyCard from "../../components/EmptyCard/EmptyCard"
 import { groupsSelector } from "../../store/groups/groupsSlice"
 import { GroupCategoriesType } from "../../store/groups/groupsTypes"
@@ -15,13 +16,12 @@ import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner"
 import { GroupsActionsModal } from "../../components/GroupsPage/GroupsActionsModal"
 import { deleteGroup, getGroupCategories, deleteGroupCategory } from "../../store/groups/groupsAsyncActions"
 
-// ==============================|| GROUPS ||============================== //
-
 const GroupsPage = () => {
   const dispatch = useAppDispatch()
 
   const navigate = useNavigate()
 
+  const { auth } = useSelector(authSelector)
   const { groupCategories, loadingStatus } = useSelector(groupsSelector)
 
   const [modalVisible, setModalVisible] = useState(false)
@@ -52,6 +52,14 @@ const GroupsPage = () => {
       }
     }
   }
+
+  React.useEffect(() => {
+    if (!auth) return
+
+    if (auth.access === "deans_office" || auth.access === "department_chair") {
+      navigate("/load")
+    }
+  }, [auth])
 
   React.useEffect(() => {
     if (groupCategories) {

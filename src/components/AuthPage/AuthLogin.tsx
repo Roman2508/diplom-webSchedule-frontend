@@ -1,6 +1,6 @@
 import {
-  Button,
   Stack,
+  Button,
   InputLabel,
   IconButton,
   OutlinedInput,
@@ -15,6 +15,7 @@ import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons"
 
 import { emailPattern } from "./emailPattern.ts"
 import { useAppDispatch } from "../../store/store"
+import { AuthType } from "../../store/auth/authTypes.ts"
 import { authLogin } from "../../store/auth/authAsyncActions.ts"
 
 const AuthLogin = () => {
@@ -44,20 +45,18 @@ const AuthLogin = () => {
   const onSubmit: SubmitHandler<{ email: string; password: string }> = async (data) => {
     try {
       const { payload } = await dispatch(authLogin(data))
-
       // @ts-ignore
-      if (payload.user) {
-        navigate("/")
+      const user = payload.user as AuthType
+
+      if (user.access === "admin" || user.access === "super_admin") {
+        navigate("/groups")
+      } else {
+        navigate("/load")
       }
     } catch (error) {
       console.log(error)
     }
   }
-
-  React.useEffect(() => {
-    const token = window.localStorage.getItem("webSchedule-token")
-    if (token) navigate("/")
-  }, [])
 
   return (
     <div>

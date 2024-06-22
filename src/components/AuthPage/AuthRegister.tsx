@@ -1,6 +1,8 @@
 import {
-  Button,
   Stack,
+  Select,
+  Button,
+  MenuItem,
   InputLabel,
   IconButton,
   OutlinedInput,
@@ -9,20 +11,32 @@ import {
   CircularProgress,
 } from "@mui/material"
 import React from "react"
+import { useSelector } from "react-redux"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons"
 
 import { emailPattern } from "./emailPattern"
 import { useAppDispatch } from "../../store/store"
 import { AuthType } from "../../store/auth/authTypes"
+import { teachersSelector } from "../../store/teachers/teachersSlice"
 import { authRegister, updateUser } from "../../store/auth/authAsyncActions"
 
 interface IAuthRegisterProps {
   editedUser: AuthType | null
 }
 
+interface IRegisterFields {
+  fullName: string
+  email: string
+  password: string
+  access: "super_admin" | "admin" | "deans_office" | "department_chair"
+  department?: number
+}
+
 const AuthRegister: React.FC<IAuthRegisterProps> = ({ editedUser }) => {
   const dispatch = useAppDispatch()
+
+  const { teachersCategories } = useSelector(teachersSelector)
 
   const [showPassword, setShowPassword] = React.useState(false)
 
@@ -39,17 +53,21 @@ const AuthRegister: React.FC<IAuthRegisterProps> = ({ editedUser }) => {
     watch,
     control,
     setValue,
+    setError,
     formState: { errors, isSubmitting },
     handleSubmit,
-  } = useForm<{ fullName: string; email: string; password: string }>({
-    mode: "onBlur",
-  })
+  } = useForm<IRegisterFields>({ mode: "onBlur" })
 
-  const onSubmit: SubmitHandler<{ fullName: string; email: string; password: string }> = async (data) => {
+  const onSubmit: SubmitHandler<IRegisterFields> = async (data) => {
     try {
       if (editedUser) {
-        await dispatch(updateUser({ ...data, access: editedUser.access, id: editedUser.id }))
+        const payload = { ...data, id: editedUser.id, department: data.department ? data.department : null }
+        // @ts-ignore
+        await dispatch(updateUser(payload))
       } else {
+        if (!data.password) {
+          setError("password", { message: "Довжина паролю може бути від 6 до 20 символів" })
+        }
         await dispatch(authRegister(data))
       }
     } catch (error) {
@@ -61,6 +79,11 @@ const AuthRegister: React.FC<IAuthRegisterProps> = ({ editedUser }) => {
     if (!editedUser) return
     setValue("fullName", editedUser.fullName)
     setValue("email", editedUser.email)
+    setValue("access", editedUser.access)
+
+    if (editedUser.department) {
+      setValue("department", editedUser.department.id)
+    }
   }, [editedUser])
 
   return (
@@ -94,6 +117,53 @@ const AuthRegister: React.FC<IAuthRegisterProps> = ({ editedUser }) => {
       />
 
       <Controller
+        name="access"
+        control={control}
+        // rules={{ required: "Роль користувача обов`язковий" }}
+        render={({ field }) => {
+          return (
+            <Stack spacing={1} sx={{ mt: 2 }}>
+              <InputLabel htmlFor="access">Роль</InputLabel>
+              <Select {...field} id="access" defaultValue={"admin"}>
+                {[
+                  { value: "admin", label: "Адміністртор" },
+                  { value: "super_admin", label: "Супер адміністртор" },
+                  { value: "department_chair", label: "Зав. кафедри" },
+                  { value: "deans_office", label: "Деканат" },
+                ].map((el) => (
+                  <MenuItem value={el.value} key={el.value}>
+                    {el.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Stack>
+          )
+        }}
+      />
+
+      {(watch("access") === "department_chair" || watch("access") === "deans_office") && (
+        <Controller
+          name="department"
+          control={control}
+          // rules={{ required: "Кафедра обов`язкова для зав. кафедри та деканату" }}
+          render={({ field }) => {
+            return (
+              <Stack spacing={1} sx={{ mt: 2 }}>
+                <InputLabel htmlFor="department">Кафедра</InputLabel>
+                <Select {...field} id="department">
+                  {(teachersCategories ? teachersCategories : []).map((el) => (
+                    <MenuItem value={el.id} key={el.id}>
+                      {el.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Stack>
+            )
+          }}
+        />
+      )}
+
+      <Controller
         name="email"
         control={control}
         rules={{
@@ -115,14 +185,14 @@ const AuthRegister: React.FC<IAuthRegisterProps> = ({ editedUser }) => {
         }}
       />
 
+      {/* {
+     required: "Пароль обов`язковий",
+     minLength: { value: 6, message: "Мін. довжина паролю - 6 символів" },
+     maxLength: { value: 20, message: "Макс. довжина паролю - 20 символів" },
+   } */}
       <Controller
         name="password"
         control={control}
-        rules={{
-          required: "Пароль обов`язковий",
-          minLength: { value: 6, message: "Мін. довжина паролю - 6 символів" },
-          maxLength: { value: 20, message: "Макс. довжина паролю - 20 символів" },
-        }}
         render={({ field }) => {
           return (
             <Stack spacing={1} sx={{ mt: 2 }}>
@@ -158,7 +228,7 @@ const AuthRegister: React.FC<IAuthRegisterProps> = ({ editedUser }) => {
         type="submit"
         color="primary"
         variant="contained"
-        disabled={!watch("fullName") || !watch("email") || !watch("password")}
+        disabled={!watch("fullName") || !watch("email") || (!editedUser && watch("password").length < 6)}
         sx={{ textTransform: "capitalize", width: "100%", p: "7.44px 15px", mt: 2 }}
       >
         {!isSubmitting ? "Зареєструвати" : <CircularProgress size={20} color="secondary" />}

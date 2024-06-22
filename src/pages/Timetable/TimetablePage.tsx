@@ -2,7 +2,6 @@ import React from "react"
 import { Grid } from "@mui/material"
 import { useSelector } from "react-redux"
 
-// project import
 import MainCard from "../../components/MainCard"
 import { useAppDispatch } from "../../store/store"
 import Calendar from "../../components/TimetablePage/Calendar"
@@ -14,6 +13,8 @@ import { clearGroupOverlay } from "../../store/scheduleLessons/scheduleLessonsSl
 import { TimetablePageHeader } from "../../components/TimetablePage/TimetablePageHeader"
 import { CopyTheScheduleModal } from "../../components/TimetablePage/CopyTheScheduleModal"
 import { getLastSelectedDataToLocalStorage } from "../../utils/getLastSelectedDataToLocalStorage"
+import { authSelector } from "../../store/auth/authSlice"
+import { useNavigate } from "react-router-dom"
 
 export interface ISelectedLesson {
   id: number
@@ -28,6 +29,9 @@ export interface ISelectedLesson {
 const TimetablePage = () => {
   const dispatch = useAppDispatch()
 
+  const navigate = useNavigate()
+
+  const { auth } = useSelector(authSelector)
   const { settings } = useSelector(settingsSelector)
 
   const [weeksCount, setWeeksCount] = React.useState(0)
@@ -40,6 +44,14 @@ const TimetablePage = () => {
   const [selectedLesson, setSelectedLesson] = React.useState<ISelectedLesson | null>(null)
   const [copyTheScheduleModalVisible, setCopyTheScheduleModalVisible] = React.useState(false)
   const [scheduleType, setScheduleType] = React.useState<"group" | "teacher" | "auditory">("group")
+
+  React.useEffect(() => {
+    if (!auth) return
+
+    if (auth.access === "deans_office" || auth.access === "department_chair") {
+      navigate("/load")
+    }
+  }, [auth])
 
   // set weeks count in current semester
   React.useEffect(() => {

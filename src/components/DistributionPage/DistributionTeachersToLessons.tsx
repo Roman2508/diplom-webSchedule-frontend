@@ -5,6 +5,7 @@ import { Grid, Stack, Tooltip, TextField, Typography, IconButton } from "@mui/ma
 import EmptyCard from "../EmptyCard/EmptyCard"
 import MainCard from "../../components/MainCard"
 import { useAppDispatch } from "../../store/store"
+import { AuthType } from "../../store/auth/authTypes"
 import { GroupLessonsType } from "../../store/groups/groupsTypes"
 import { TeachersType } from "../../store/teachers/teachersTypes"
 import { getLastnameAndInitials } from "../../utils/getLastnameAndInitials"
@@ -14,12 +15,14 @@ import { attachTeacher, unpinTeacher } from "../../store/groups/groupsAsyncActio
 export type AttachmentTypes = "attach-one" | "unpin-one"
 
 interface IDistributionTeachersToLessonsProps {
+  auth: AuthType | null
   selectedTeacherId: number | null
   selectedLesson: GroupLessonsType[] | null
   setSelectedLesson: Dispatch<SetStateAction<GroupLessonsType[] | null>>
 }
 
 const DistributionTeachersToLessons: React.FC<IDistributionTeachersToLessonsProps> = ({
+  auth,
   selectedLesson,
   setSelectedLesson,
   selectedTeacherId,
@@ -117,13 +120,16 @@ const DistributionTeachersToLessons: React.FC<IDistributionTeachersToLessonsProp
                     sx={{ mr: "8px !important", "& .MuiInputBase-root": { p: 0 } }}
                   />
                   <Tooltip title="Прикріпити викладача">
-                    <IconButton onClick={() => onAttachTeacher(lesson.id)}>
+                    <IconButton onClick={() => onAttachTeacher(lesson.id)} disabled={auth?.access === "deans_office"}>
                       <LeftSquareOutlined />
                     </IconButton>
                   </Tooltip>
 
                   <Tooltip title="Відкріпити викладача">
-                    <IconButton onClick={() => onUnpinTeacher(lesson.id)} disabled={!teacher}>
+                    <IconButton
+                      onClick={() => onUnpinTeacher(lesson.id)}
+                      disabled={!teacher || auth?.access === "deans_office"}
+                    >
                       <CloseSquareOutlined />
                     </IconButton>
                   </Tooltip>

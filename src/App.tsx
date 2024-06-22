@@ -26,13 +26,17 @@ const App = () => {
   const navigate = useNavigate()
 
   React.useEffect(() => {
-    const token = window.localStorage.getItem("webSchedule-token")
+    const fetchData = async () => {
+      const token = window.localStorage.getItem("webSchedule-token")
 
-    if (token) {
-      dispatch(authMe({ token }))
-    } else {
-      navigate("/")
+      if (!token) {
+        navigate("/")
+        return
+      }
+      await dispatch(authMe({ token }))
     }
+
+    fetchData()
   }, [])
 
   return (

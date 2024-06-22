@@ -35,7 +35,7 @@ export const authRegister = createAsyncThunk("auth/authRegister", async (payload
 
   try {
     const { data } = await authAPI.register(payload)
-    thunkAPI.dispatch(setAppAlert({ message: "Авторизований", status: "success" }))
+    thunkAPI.dispatch(setAppAlert({ message: "Зареєстрований", status: "success" }))
     thunkAPI.dispatch(setLoadingStatus(LoadingStatusTypes.SUCCESS))
     return data
   } catch (error: any) {
@@ -90,26 +90,29 @@ export const getUsers = createAsyncThunk("auth/getUsers", async (_, thunkAPI) =>
   }
 })
 
-export const updateUser = createAsyncThunk("auth/updateUser", async (payload: AuthType & { id: number }, thunkAPI) => {
-  thunkAPI.dispatch(setAppAlert({ message: "Завантаження...", status: "info" }))
-  thunkAPI.dispatch(setLoadingStatus(LoadingStatusTypes.LOADING))
+export const updateUser = createAsyncThunk(
+  "auth/updateUser",
+  async (payload: AuthType & { id: number; department: number | null }, thunkAPI) => {
+    thunkAPI.dispatch(setAppAlert({ message: "Завантаження...", status: "info" }))
+    thunkAPI.dispatch(setLoadingStatus(LoadingStatusTypes.LOADING))
 
-  try {
-    const { data } = await authAPI.updateUser(payload)
-    thunkAPI.dispatch(setAppAlert({ message: "Користувача оновлено", status: "success" }))
-    thunkAPI.dispatch(setLoadingStatus(LoadingStatusTypes.SUCCESS))
-    return data
-  } catch (error: any) {
-    thunkAPI.dispatch(setLoadingStatus(LoadingStatusTypes.ERROR))
-    thunkAPI.dispatch(
-      setAppAlert({
-        message: (error as any).response.data.message || error.message,
-        status: "error",
-      })
-    )
-    throw error
+    try {
+      const { data } = await authAPI.updateUser(payload)
+      thunkAPI.dispatch(setAppAlert({ message: "Користувача оновлено", status: "success" }))
+      thunkAPI.dispatch(setLoadingStatus(LoadingStatusTypes.SUCCESS))
+      return data
+    } catch (error: any) {
+      thunkAPI.dispatch(setLoadingStatus(LoadingStatusTypes.ERROR))
+      thunkAPI.dispatch(
+        setAppAlert({
+          message: (error as any).response.data.message || error.message,
+          status: "error",
+        })
+      )
+      throw error
+    }
   }
-})
+)
 
 export const deleteUser = createAsyncThunk("auth/deleteUser", async (id: number, thunkAPI) => {
   thunkAPI.dispatch(setAppAlert({ message: "Завантаження...", status: "info" }))
