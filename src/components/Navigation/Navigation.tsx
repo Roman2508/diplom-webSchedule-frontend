@@ -1,15 +1,10 @@
 import React from "react"
+import { List } from "@mui/material"
 import { useSelector } from "react-redux"
 
-// material-ui
-import { Box, List, Typography } from "@mui/material"
-
-// project import
 import NavItem from "./NavItem"
 import menuItems from "../../menu-items"
 import { authSelector } from "../../store/auth/authSlice"
-
-// ==============================|| NAVIGATION - LIST GROUP ||============================== //
 
 const Navigation: React.FC = () => {
   const { drawerOpen } = useSelector((state: any) => state.menu)
